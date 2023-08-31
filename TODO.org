@@ -1,5 +1,23 @@
-* TODO Implement glassmorphism
+* DONE Implement glassmorphism
+
+* TODO PIXI animations
+  SCHEDULED: <2023-08-31 Thu>
+    * [ ] rotating icon countdown 
+    * [ ] figure out what to do with the third tab
+    * [ ] optimize each tab
+    * [X] better scene management
+
+
+
+
+* final portfolio
   :LOGBOOK:
+  CLOCK: [2023-08-31 Thu 11:11]
+  :END:
+  :LOGBOOK:
+  CLOCK: [2023-08-29 Tue 21:50]--[2023-08-29 Tue 23:42] => 1:52
+  CLOCK: [2023-08-29 Tue 17:15]--[2023-08-29 Tue 18:30] => 1:15
+  CLOCK: [2023-08-29 Tue 13:27]--[2023-08-29 Tue 14:10] => 0:43
   CLOCK: [2023-08-25 Fri 22:42]--[2023-08-25 Fri 22:48] => 0:06
   :END:
    

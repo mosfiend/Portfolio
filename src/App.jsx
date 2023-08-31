@@ -9,14 +9,7 @@ import Socials from "./components/Socials"
 import {Container,Flex, Box } from "@chakra-ui/react"
 
 const App = () => {
-const converted = {
-  background: "rgba( 64, 156, 220, 0.2 )",
-  boxShadow: "0 8px 32px 0 rgba( 31, 38, 135, 0.37 )",
-  backdropFilter: "blur(10px)",
-  WebkitBackdropFilter: "blur( 10px )",
-  borderRadius: "10px"
-}
-  return (<Box  >
+  return (<Box bg="#2E3037" >
       <Showcase />
     <About />
     <Projects id="Projects" />

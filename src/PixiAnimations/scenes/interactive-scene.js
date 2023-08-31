@@ -1,29 +1,27 @@
-import * as PIXI from 'pixi.js';
+import {Container, Graphics, Assets, AnimatedSprite } from 'pixi.js'
 import { CompositeTilemap, Tilemap } from '@pixi/tilemap';
 import { Manager } from '../manager.js';
 import { Tween, Easing } from 'tweedle.js';
 import mapData from '../assets/data/map.json'
-export class WorldMap extends PIXI.Container {
-
+export class WorldMap extends Container {
     constructor() {
         super();
         //initialize drag
         Manager.viewport
             .drag({
                 // pressDrag: true,
-                // wheel: false
+                wheel: false
             });
 
         this.screenWidth = Manager.width;
         this.screenHeight = Manager.height;
-        this.batMovement = PIXI.Assets.get("bat").animations
+        this.batMovement = Assets.get("bat").animations
         // this.tileProps = PIXI.Loader.shared.resources.tileset.textures;
         this.mapLayers = mapData.layers;
         this.layerIds = []
         this.layerIps = []
         this.tilemap = new CompositeTilemap()
         this.tilemaps = []
-
         for (let i = 0, arr = []; i < 52 * 32; i++) {
             arr.push(i)
             if (i === this.mapLayers[0].width * this.mapLayers[0].height - 1) {
@@ -33,36 +31,31 @@ export class WorldMap extends PIXI.Container {
                 this.addChild(...this.tilemaps)
             };
         }
-    }
 
-    extractTile(id) {
-        let rotation = 0
-        let newId = id
-        newId -= 0x80000000
-        if (newId > 0x40000000) {
-            newId -= 0x40000000
-            rotation = Math.PI / 2
-        }
-        if (newId > 0x20000000) {
-            newId -= 0x20000000
-            rotation = Math.PI
-        }
-        return newId
-    }
-
-    transitionIn() {
-        Manager.viewport.addChildAt(Manager.mapScene, 0)
-    }
-    transitionOut() {
-        Manager.mapScene.destroy();
-        Manager.viewport.removeChild(Manager.mapScene)
-    }
-    resize(w, h) {
-        this.screenWidth = w
-        this.screenHeight = h
+        this.archon = new Graphics()
+        this.archon.x = this.screenWidth/2
+        this.archon.y = this.screenHeight/2
+        this.addChild(this.archon)
+this.diam = 300
+        this.ang = 0
+        this.moon = 1
+        this.archon.beginFill(0xffcc00)
     }
 
     update(deltaTime) {
+        this.moon = (this.moon+1) % 2
+        let sin = Math.sin(this.ang)
+        let cos = Math.cos(this.ang)
+        this.ang += 5
+this.archon
+  .lineTo(cos*this.diam-1,sin*this.diam-1)
+  .lineTo(cos*this.diam,sin*this.diam)
+
+  if (this.moon%2) { this.archon.drawCircle(cos*this.diam, sin*this.diam,5)
+
+ }
+// this.archon.mask = this
+
         for (let layer = 0; layer < this.layerIds.length; layer++) {
             if (this.layerIds[layer].length > 0) {
                 const curLayer = this.layerIds[layer]
@@ -80,7 +73,7 @@ export class WorldMap extends PIXI.Container {
                 }
             }
             if (this.layerIds[layer].length < 800) {
-                const newBat = new PIXI.AnimatedSprite(this.batMovement.move_right)
+                const newBat = new AnimatedSprite(this.batMovement.move_right)
                 const moveInterval = 2500 + Math.floor(Math.random() * 500)
                 const randomDirection = [-1, 1][Math.floor(Math.random() * 2)]
 
@@ -101,4 +94,37 @@ export class WorldMap extends PIXI.Container {
             }
         }
     }
+
+    /**
+     * @param {number} id
+     */
+    extractTile(id) {
+        let rotation = 0
+        let newId = id
+        newId -= 0x80000000
+        if (newId > 0x40000000) {
+            newId -= 0x40000000
+            rotation = Math.PI / 2
+        }
+        if (newId > 0x20000000) {
+            newId -= 0x20000000
+            rotation = Math.PI
+        }
+        return newId
+    }
+
+    transitionIn() {
+        this.mask = Manager.prevScene
+        Manager.app.stage.addChild(Manager.currentScene)
+        Manager.viewport.addChildAt(Manager.currentScene, 0)
+    }
+    transitionOut() {
+        Manager.viewport.removeChild(Manager.prevScene)
+        Manager.prevScene.destroy();
+    }
+    resize(w, h) {
+        this.screenWidth = w
+        this.screenHeight = h
+    }
+
 }

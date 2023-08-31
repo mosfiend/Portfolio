@@ -9,10 +9,8 @@ export class Manager {
     constructor() {
     }
     static viewport;
-    static navBar;
-    static mapScene;
-    static skillScene;
-    static projectScene;
+    static navbar;
+    static prevScene
     static currentScene;
     static x;
     static y;
@@ -28,7 +26,6 @@ export class Manager {
 
     static initialize(el, background, parent) {
         Manager.parent = parent
-        // store our width and height
         Manager.el = el
         // Create our pixi app
         Manager.app = new PIXI.Application({
@@ -37,9 +34,12 @@ export class Manager {
             resolution: window.devicePixelRatio || 1,
             autoDensity: true,
             backgroundColor: background,
-            backgroundAlpha:1,
+            backgroundAlpha:0,
+            eventMode: "passive"
         });
         globalThis.__PIXI_APP__ = Manager.app;
+        globalThis.PIXI = PIXI;
+
         Manager.app.stage.interactive = true
         Manager.app.stage.sortableChildren = true;
         Manager.app.ticker.add(Manager.update)
@@ -47,8 +47,8 @@ export class Manager {
     }
 
     static resize() {
-        if (Manager[Manager.currentScene]) {
-            Manager[Manager.currentScene].resize(Manager.width, Manager.height);
+        if (Manager.curent.scene) {
+            Manager.currentScene.resize(Manager.width, Manager.height);
         }
         Manager.navbar.resize(Manager.width, Manager.height)
     }
@@ -84,23 +84,18 @@ export class Manager {
         await PIXI.Assets.loadBundle("techIcons");
         await PIXI.Assets.loadBundle("rest");
         Manager.annexes(new Navbar());
-
     }
 
-    static startScene(scene1) {
-        // Manager.currentScene = "projectScene"
-        // Manager.projectScene = scene1
-        // Manager.projectScene.transitionIn()
-        Manager.currentScene = "skillScene"
-        Manager.skillScene = scene1
-        Manager.skillScene.transitionIn()
+    static startScene(scene) {
+        Manager.currentScene = scene
+        Manager.currentScene.transitionIn()
     }
 
-    static changeScene(scene, name) {
-        Manager[name] = scene
-        Manager[Manager.currentScene].transitionOut()
-        Manager.currentScene = name
-        Manager[Manager.currentScene].transitionIn()
+    static changeScene(scene) {
+        Manager.prevScene = Manager.currentScene
+        Manager.prevScene.transitionOut()
+        Manager.currentScene = scene
+        Manager.currentScene.transitionIn()
     }
 
     static mouseCoordinates() {
@@ -111,11 +106,11 @@ export class Manager {
     static update(deltaTime) {
         Group.shared.update()
         if (Manager.currentScene) {
-            Manager[Manager.currentScene].update(deltaTime)
+            Manager.currentScene.update(deltaTime)
         }
 
-        if (Manager.navBar) {
-            Manager.navBar.update(deltaTime)
+        if (Manager.navbar) {
+            Manager.navbar.update(deltaTime)
         }
     }
 }

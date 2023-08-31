@@ -105,7 +105,7 @@ export class OrbitScene extends PIXI.Container {
       }
 
       transitionIn() {
-            Manager.app.stage.addChildAt(Manager.skillScene, 1) //Put in front of viewport, but behind navbar
+            Manager.app.stage.addChildAt(Manager.currentScene, 1) //Put in front of viewport, but behind navbar
             let updated = { alpha: this.alpha }
             let fadeIn = new Tween(updated)
             // if (game is loaded ) {
@@ -156,13 +156,14 @@ export class OrbitScene extends PIXI.Container {
 
             fadeOut.call(this, this.circle7)
                   .chain(fadeOut.call(this, this.circle6, ()=>{new Tween(this).to({alpha:0},500).start()})
-                        .chain(fadeOut.call(this, this.circle1,()=>{this.reactContainer.popOut()})
-                              .chain(fadeOut.call(this, this.circle5,()=>{this.pixiContainer.popOut()})
-                                    .chain(fadeOut.call(this, this.circle2,()=>{this.htmlContainer.popOut()})
-                                          .chain(fadeOut.call(this, this.circle4, ()=>{this.cssContainer.popOut()})
+                        .chain(fadeOut.call(this, this.circle1,()=>{})
+                              .chain(fadeOut.call(this, this.circle5,()=>{})
+                                    .chain(fadeOut.call(this, this.circle2,()=>{})
+                                          .chain(fadeOut.call(this, this.circle4, ()=>{})
                                                 .chain(fadeOut.call(this, this.circle3, () => {
-                                                      Manager.skillScene.destroy();
-                                                      Manager.app.stage.removeChild(Manager.skillScene)
+                                                      Manager.prevScene.destroy();
+                                                      Manager.app.stage.removeChild(Manager.prevScene)
+                                                      Manager.currentScene.mask 
                                                 })
                                                 )
                                           )
