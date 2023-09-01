@@ -161,9 +161,8 @@ export class OrbitScene extends PIXI.Container {
                                     .chain(fadeOut.call(this, this.circle2,()=>{})
                                           .chain(fadeOut.call(this, this.circle4, ()=>{})
                                                 .chain(fadeOut.call(this, this.circle3, () => {
-                                                      Manager.prevScene.destroy();
-                                                      Manager.app.stage.removeChild(Manager.prevScene)
-                                                      Manager.currentScene.mask 
+                                                      Manager.app.stage.removeChild(this)
+                                                      this.destroy();
                                                 })
                                                 )
                                           )
