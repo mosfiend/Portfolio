@@ -36,10 +36,11 @@ export class WorldMap extends Container {
         this.archon.x = this.screenWidth/2
         this.archon.y = this.screenHeight/2
         this.addChild(this.archon)
-this.diam = 300
+this.diam = 400 
         this.ang = 0
         this.moon = 1
         this.archon.beginFill(0xffcc00)
+        this.archon.lineStyle(10)
     }
 
     update(deltaTime) {
@@ -51,11 +52,10 @@ this.archon
   .lineTo(cos*this.diam-1,sin*this.diam-1)
   .lineTo(cos*this.diam,sin*this.diam)
 
-  if (this.moon%2) { this.archon.drawCircle(cos*this.diam, sin*this.diam,5)
+  if (this.moon%2) { this.archon.drawCircle(cos*this.diam, sin*this.diam,2)
 
  }
-// this.archon.mask = this
-
+this.archon.scale.set(this.skill)
         for (let layer = 0; layer < this.layerIds.length; layer++) {
             if (this.layerIds[layer].length > 0) {
                 const curLayer = this.layerIds[layer]
@@ -114,13 +114,12 @@ this.archon
     }
 
     transitionIn() {
-        this.mask = Manager.prevScene
         Manager.app.stage.addChild(Manager.currentScene)
         Manager.viewport.addChildAt(Manager.currentScene, 0)
     }
     transitionOut() {
-        Manager.viewport.removeChild(Manager.prevScene)
-        Manager.prevScene.destroy();
+        Manager.viewport.removeChild(this)
+this.destroy();
     }
     resize(w, h) {
         this.screenWidth = w
