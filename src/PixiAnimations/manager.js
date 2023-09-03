@@ -22,9 +22,10 @@ export class Manager {
     return Manager.parent.offsetHeight;
   }
 
-  static initialize(el, background, parent) {
+  static initialize(el, background, parent, changeScene) {
     Manager.parent = parent;
     Manager.el = el;
+    Manager.handleState = changeScene
     // Create our pixi app
     Manager.app = new Application({
       view: Manager.el,
@@ -72,7 +73,6 @@ export class Manager {
     Manager.app.stage.addChild(Manager.navbar);
   }
   static async initializeLoader() {
-    //// TRANSPARENCY ISSUES WORKAROUND
     await Assets.init({ manifest });
     Manager.startScene(new OrbitScene());
     await Assets.loadBundle("techIcons");

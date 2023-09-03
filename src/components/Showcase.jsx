@@ -1,16 +1,25 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import Socials from "./Socials.jsx";
 import { Manager } from "../PixiAnimations/manager.js";
 import { Text, Button, Box, Flex, Center, Heading } from "@chakra-ui/react";
-import { extendTheme, defineStyleConfig } from "@chakra-ui/react";
+import ContactForm from "./ContactForm.jsx"
+import About from "./About.jsx"
 const Showcase = (props) => {
   let runOnce = false;
+  const [curScene, setCurScene] = useState(0);
+  console.log("cur", curScene);
+  const changeScene = (cur) => {
+    console.log(`let's run!`);
+    setCurScene(cur);
+  };
+
   useEffect(() => {
     if (!runOnce) {
       Manager.initialize(
         document.getElementById("pixi-canvas"),
         0x2e3037,
-        document.getElementById("container")
+        document.getElementById("container"),
+        changeScene
       );
       Manager.vp();
       Manager.initializeLoader();
@@ -20,20 +29,21 @@ const Showcase = (props) => {
   return (
     <Box id="container">
       <Box
+        textAlign="center"
         position="absolute"
         top="10vh"
         left="3vw"
-        bg="#39C0BA20"
+        bg="#69696969"
+        width="30vw"
         backdropFilter="auto"
         backdropBlur="7px"
         borderRadius="6px"
       >
-        <Heading color="white" as="h1" fontSize="5xl" m={4}>
-          Abdellaoui Mostefa
+        <Heading  as="h1" fontSize="5xl" m={4}>
+        { curScene===1? <>Who am I</>:<>Get in touch</>}
         </Heading>
-        <Text color="white" fontSize="2xl" m="4">
-          a great deal of things,foremost of all, an amazing father
-        </Text>
+     { curScene===1?<About curScene={curScene}/>:
+      <ContactForm/>}
         <Center m={4}>
           <Button>Hire me jee</Button> <Socials />{" "}
         </Center>

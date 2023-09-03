@@ -1,21 +1,15 @@
 import { Box, Heading, Text } from "@chakra-ui/react";
 
-const About = () => {
+const About = ({curScene}) => {
   return (
-    <Box paddingTop={50}>
-      <Heading as="h3" fontSize="l" mb={4}>
-        About Me
-      </Heading>
-      <Text>
-        Write a brief introduction about yourself here. Mention your name,
-        your profession, and any relevant background or experience you'd like
-        to highlight.
-      </Text>
-      <Text mt={4}>
-        You can also include a bit about your interests, hobbies, or any other
-        fun facts that you'd like to share.
-      </Text>
-    </Box>
+        <>
+        <Text  >
+          I love software and hardware but especially software as, don't let
+          r/webdev hear me say this, it's the easier of the two to work with.
+          That doesn't make our job any less valuable though! All it means is
+          that we are more replaceable
+        </Text>
+</>
   );
 };
 

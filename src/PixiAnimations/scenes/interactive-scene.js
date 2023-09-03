@@ -116,6 +116,7 @@ this.archon.scale.set(this.skill)
     transitionIn() {
         Manager.app.stage.addChild(Manager.currentScene)
         Manager.viewport.addChildAt(Manager.currentScene, 0)
+        Manager.handleState(2)
     }
     transitionOut() {
         Manager.viewport.removeChild(this)

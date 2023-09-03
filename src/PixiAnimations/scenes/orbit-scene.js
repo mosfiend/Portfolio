@@ -128,6 +128,7 @@ export class OrbitScene extends PIXI.Container {
                         // })
                   })
                   .start()
+                  Manager.handleState(1)
       }
       async loadAssets() {
             await PIXI.Assets.loadBundle("techIcons")
