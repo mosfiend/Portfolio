@@ -2,14 +2,12 @@ import { useState, useEffect } from "react";
 import Socials from "./Socials.jsx";
 import { Manager } from "../PixiAnimations/manager.js";
 import { Text, Button, Box, Flex, Center, Heading } from "@chakra-ui/react";
-import ContactForm from "./ContactForm.jsx"
-import About from "./About.jsx"
+import Contact from "./Contact.jsx";
+import About from "./About.jsx";
 const Showcase = (props) => {
   let runOnce = false;
-  const [curScene, setCurScene] = useState(0);
-  console.log("cur", curScene);
+  const [curScene, setCurScene] = useState(1);
   const changeScene = (cur) => {
-    console.log(`let's run!`);
     setCurScene(cur);
   };
 
@@ -39,14 +37,10 @@ const Showcase = (props) => {
         backdropBlur="7px"
         borderRadius="6px"
       >
-        <Heading  as="h1" fontSize="5xl" m={4}>
-        { curScene===1? <>Who am I</>:<>Get in touch</>}
+        <Heading as="h1" fontSize="5xl" m={4}>
+          {curScene === 1 ? <>Who am I</> : <>Get in touch</>}
         </Heading>
-     { curScene===1?<About curScene={curScene}/>:
-      <ContactForm/>}
-        <Center m={4}>
-          <Button>Hire me jee</Button> <Socials />{" "}
-        </Center>
+        {curScene === 1 ? <About curScene={curScene} /> : <Contact />}
       </Box>
       <Box w="100%" h="100vh">
         <canvas id="pixi-canvas" />

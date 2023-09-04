@@ -16,8 +16,15 @@ export class Navbar extends Container {
     this.navWidth = 100;
     this.sortableChildren = true;
 
-    const a =  39
-    
+    this.load = new Graphics().beginFill(0xff0000).drawCircle(-100, 100, 50);
+    this.spinner = new Graphics().beginFill(0xffff00);
+    this.spinner.x = -100;
+    this.spinner.y = 100;
+    this.ang = 0;
+    this.diam = 1;
+    this.cyclePart = 0;
+    this.addChild(this.load, this.spinner);
+    this.load.mask = this.spinner;
     this.project1 = new Graphics();
     this.project2 = new Graphics();
     this.project3 = new Graphics();
@@ -41,7 +48,7 @@ export class Navbar extends Container {
     this.project1.x = this.navWidth / 2;
     this.project2.x = this.navWidth / 2;
     this.project3.x = this.navWidth / 2;
-
+    function doer() {}
     this.project1.interactive = true;
     this.project2.interactive = true;
     this.project3.interactive = true;
@@ -82,6 +89,7 @@ export class Navbar extends Container {
     );
 
     this.activeProject = { y: this.projectBtnTransition1.y };
+
     this.project1.on("pointerdown", () => {
       if (
         this.activeProject.y !== this.project1.y &&
@@ -152,8 +160,6 @@ export class Navbar extends Container {
       )
         new Tween(this.project3).to({ alpha: 0.3 }, 300).start();
     });
-
-    Ticker.shared.add(this.update.bind(this));
   }
   activateProject1() {
     this.project2.alpha = 0.3;
@@ -173,7 +179,6 @@ export class Navbar extends Container {
       })
       .easing(Easing.Cubic.In)
       .start();
-
     const shrinkMovement = new Tween(this.projectBtnTransition2)
       .to({ height: 1, y: this.project1.y }, timeCoeff * 2)
       .onUpdate(() => {
@@ -194,7 +199,7 @@ export class Navbar extends Container {
     const timeCoeff = Math.abs(
       Math.round(
         (this.project2.y - this.prevProject.y) / (this.navHeight * 0.3)
-      ) * 150 
+      ) * 150
     );
 
     const expandMovement = new Tween(this.projectBtnTransition2)
@@ -253,6 +258,42 @@ export class Navbar extends Container {
 
   update(deltaTime) {
     this.activeProject.y = this.projectBtnTransition1.y;
+    if (this.cyclePart < 4) {
+      this.spinner.clear().beginFill();
+      this.diam = (this.diam + 1) % 81;
+    }
+    if (this.diam === 0) this.cyclePart++;
+    switch(this.cyclePart){
+   case 0: 
+      this.spinner.lineTo(0, -80);
+      this.spinner.lineTo(this.diam, -80 + this.diam);
+      break
+   case 1: 
+      this.spinner.lineTo(0, -80);
+      this.spinner.lineTo(80, 0);
+      this.spinner.lineTo(80 - this.diam, this.diam);
+      break
+   case 2: 
+      this.spinner.lineTo(0, -80);
+      this.spinner.lineTo(80, 0);
+      this.spinner.lineTo(0, 80);
+      this.spinner.lineTo(-this.diam, 80 - this.diam);
+      break;
+   case 3: 
+      this.spinner.lineTo(0, -80);
+      this.spinner.lineTo(80, 0);
+      this.spinner.lineTo(0, 80);
+      this.spinner.lineTo(-80, 0);
+      this.spinner.lineTo(-80 + this.diam, -this.diam);
+    break;
+    default:
+      this.spinner.lineTo(0, -80);
+      this.spinner.lineTo(80, 0);
+      this.spinner.lineTo(0, 80);
+      this.spinner.lineTo(-80, 0);
+      this.spinner.lineTo(0, -80);
+    }
+    // this.spinner.lineTo(-this.diam,0)
   }
   resize(w, h) {
     this.screenWidth = w;
@@ -260,4 +301,5 @@ export class Navbar extends Container {
     this.x = this.screenWidth - 100;
     this.y = this.screenHeight * 0.2;
   }
+  makeInteractive() {}
 }

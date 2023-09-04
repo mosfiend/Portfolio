@@ -224,7 +224,7 @@ export class skillIcons extends PIXI.Container {
       constructor(sprite, circle) {
             super();
             this.alpha = 0
-            this.speed = 0.2 + Math.random() * 0.4
+            this.speed = 0.02 + Math.random() * 0.04
             this.spriteName = sprite
             this.circle = circle
             this.sprite = PIXI.Sprite.from(sprite)

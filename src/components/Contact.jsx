@@ -1,13 +1,15 @@
+import {Button, Box, VStack, Heading } from '@chakra-ui/react'
 import ContactForm from './ContactForm.jsx'
-import { Heading } from '@chakra-ui/react'
+import Socials from './Socials.jsx'
 export default function Contact() {
   
   return (
-  <>
-      <Heading as="h3" fontSize="l" mb={4}>
-        Contact
-      </Heading>
+      <Box borderRadius="lg" p={8} shadow="base">
+        <VStack spacing={5}>
         <ContactForm />
-  </>
+          <Button>Hire me jee</Button> <Socials />{" "}
+        </VStack>
+
+      </Box>
     )
 }

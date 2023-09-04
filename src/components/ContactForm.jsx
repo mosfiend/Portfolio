@@ -21,10 +21,8 @@ import { MdOutlineEmail } from "react-icons/md";
 export default function ContactFormWithSocialButtons() {
   const { hasCopied, onCopy } = useClipboard("example@example.com");
 
-  return (
-      <Box borderRadius="lg" p={8} shadow="base">
-        <VStack spacing={5}>
-          <FormControl isRequired>
+  return (<>
+          <FormControl method="POST" data-netlify="true" isRequired>
             <FormLabel>Name</FormLabel>
 
             <InputGroup>
@@ -67,7 +65,6 @@ export default function ContactFormWithSocialButtons() {
           >
             Send Message
           </Button>
-        </VStack>
-      </Box>
+  </>
   );
 }

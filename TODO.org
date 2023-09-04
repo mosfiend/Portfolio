@@ -12,7 +12,7 @@
   * [ ] form handling proper
   * [ ] basic backend to receive the messages
 ** TODO Styling general
-  * [ ] make default text color white 
+  * [X] make default text color white 
   * [ ] host own font
 
 

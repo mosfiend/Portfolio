@@ -73,11 +73,11 @@ export class Manager {
     Manager.app.stage.addChild(Manager.navbar);
   }
   static async initializeLoader() {
+    Manager.annexes(new Navbar());
     await Assets.init({ manifest });
     Manager.startScene(new OrbitScene());
     await Assets.loadBundle("techIcons");
     await Assets.loadBundle("rest");
-    Manager.annexes(new Navbar());
   }
 
   static startScene(scene) {

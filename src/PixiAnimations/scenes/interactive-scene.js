@@ -32,30 +32,18 @@ export class WorldMap extends Container {
             };
         }
 
-        this.archon = new Graphics()
-        this.archon.x = this.screenWidth/2
-        this.archon.y = this.screenHeight/2
-        this.addChild(this.archon)
-this.diam = 400 
-        this.ang = 0
-        this.moon = 1
-        this.archon.beginFill(0xffcc00)
-        this.archon.lineStyle(10)
+    this.load = new Graphics().beginFill(0xff0000).drawCircle(-100,100,50);
+    this.spinner = new Graphics().beginFill(0xffFF00);
+    this.ang = 0
+    this.diam = 70
+    this.addChild(this.spinner,this.load)
     }
 
     update(deltaTime) {
-        this.moon = (this.moon+1) % 2
-        let sin = Math.sin(this.ang)
-        let cos = Math.cos(this.ang)
-        this.ang += 5
-this.archon
-  .lineTo(cos*this.diam-1,sin*this.diam-1)
-  .lineTo(cos*this.diam,sin*this.diam)
-
-  if (this.moon%2) { this.archon.drawCircle(cos*this.diam, sin*this.diam,2)
-
- }
-this.archon.scale.set(this.skill)
+const cos = Math.cos(this.ang);
+const sin = Math.sin(this.ang);
+this.ang += 0.1
+this.spinner.lineTo(cos*this.diam,sin*this.diam)
         for (let layer = 0; layer < this.layerIds.length; layer++) {
             if (this.layerIds[layer].length > 0) {
                 const curLayer = this.layerIds[layer]

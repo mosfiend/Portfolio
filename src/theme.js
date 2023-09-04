@@ -8,7 +8,7 @@ const inputStyle = {
           background: "#ffffff44",
         },
         _placeholder: {
-          color: "#bbbbee",
+          color: "#555577",
         },
       },
     },
@@ -19,12 +19,17 @@ const theme = extendTheme({
   components: {
     Text: {
       baseStyle: {
-        color: "#bbbbee",
+        color: "#ccccdd",
+      },
+    },
+    FormLabel: {
+      baseStyle: {
+        color: "#ccccdd",
       },
     },
     Heading: {
       baseStyle: {
-        color: "#bbbbee",
+        color: "#ccccdd",
         fontFamily: "Quicksand, sans-serif",
       },
     },
@@ -38,7 +43,7 @@ const theme = extendTheme({
             background: "#ffffff44",
           },
           _placeholder: {
-            color: "#bbbbee",
+            color: "#555577",
           },
         },
       },
