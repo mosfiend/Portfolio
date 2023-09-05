@@ -4,6 +4,7 @@ import { Manager } from "../manager";
 export class ProjectScene extends PIXI.Container { // a scene covering  only half the screen what a joke 
     constructor() {
         super();
+        console.log("hi")
         this.screenWidth = Manager.width;
         this.screenHeight = Manager.height;
         this.text = new PIXI.Text("5:00", { fontFamily: "Orbitron" })
@@ -21,15 +22,6 @@ export class ProjectScene extends PIXI.Container { // a scene covering  only hal
         this.terrainEnd = (this.screenHeight + this.carouselHeight) / 2 - this.projectHeight
         // I could position the projects one by one and only assign a value to this variable afterwards. However I doubt I will be changing 
         // its value around a lot, so it's doing just fine for now
-        this.projects.push(new Project("pancreas", this.projects.length, this.projectHeight, this.terrainStart, this.terrainEnd, this.carouselHeight, "https://mosted.itch.io/pancreas"));
-        this.projects.push(new Project("workout",  this.projects.length, this.projectHeight, this.terrainStart, this.terrainEnd, this.carouselHeight, "https://adoring-agnesi-1cfb67.netlify.app/"));
-        this.projects.push(new Project("pancreas", this.projects.length, this.projectHeight, this.terrainStart, this.terrainEnd, this.carouselHeight));
-
-        this.projects.forEach(project => { this.projectsContainer.addChild(project) });
-        this.addChild(this.projectsContainer, this.text)
-        // this.contactForm.interactive = true;
-        // this.contactForm.buttonMode = true;
-        // this.addChild(this.contactForm);
     }
 
     centerProjects(shownProjectY) {
@@ -72,7 +64,7 @@ export class ProjectScene extends PIXI.Container { // a scene covering  only hal
         this.x = this.screenWidth > 780 ? (this.screenWidth / 2) : 0;
     }
     transitionIn() {
-        Manager.app.stage.addChildAt(Manager.projectScene, 1)
+        Manager.app.stage.addChildAt(Manager.currentScene, 1)
         //   new Tween()
         //   .to({alpha:PIXI.Loader.shared.progress/100},400)
         //   .onUpdate(()=> {
@@ -86,9 +78,8 @@ export class ProjectScene extends PIXI.Container { // a scene covering  only hal
     }
 
     transitionOut() {
-        Manager.projectScene.destroy();
-        Manager.app.stage.removeChild(Manager.projectScene);
-
+        Manager.app.stage.removeChild(this);
+this.destroy()
     }
 }
 export class Project extends PIXI.Container {
