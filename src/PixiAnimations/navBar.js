@@ -1,4 +1,5 @@
 import { Graphics, Container } from "pixi.js";
+import '@pixi/graphics-extras';
 import { Tween, Easing, Group } from "tweedle.js";
 import { WorldMap } from "./scenes/interactive-scene.js";
 import { Manager } from "./manager.js";
@@ -13,10 +14,12 @@ export class Navbar extends Container {
     this.x = this.screenWidth - 100;
     this.y = this.screenHeight * 0.2;
     this.navHeight = 250;
-    this.navWidth = 100;
+    this.navWidth = 80;
     this.isClicked = false;
     this.sceneSwitcher = 0
-    this.load = new Graphics().beginFill(0xff0000).drawCircle(0,0, this.navWidth*0.25);
+    this.load = new Graphics()
+.beginFill(0x39c0ba).drawCircle(0,0, this.navWidth*0.25)
+this.load.alpha = 0.5
     this.load.x = this.navWidth/2
     this.ang = 0;
     this.diam = 1;
@@ -25,7 +28,7 @@ export class Navbar extends Container {
     this.spinner.x = this.navWidth/2;
     this.spinner.y = 0;
     this.load.mask = this.spinner;
-    this.addChild(this.load, this.spinner);
+
 
     this.project1 = new NavButton(
       this.navWidth / 2,
@@ -55,20 +58,21 @@ export class Navbar extends Container {
     this.btnHilight.x = this.navWidth / 2;
     this.btnHilight.circ1 = new Graphics()
       .beginFill(0x39c0ba)
-      .drawCircle(0, 0, this.navWidth * 0.2);
+      .drawCircle(0, 0, this.navWidth * 0.25);
     this.btnHilight.circ2 = new Graphics()
       .beginFill(0x39c0ba)
-      .drawCircle(0, 0, this.navWidth * 0.2);
+      .drawCircle(0, 0, this.navWidth * 0.25);
     this.btnHilight.rect = new Graphics()
       .beginFill(0x39c0ba)
-      .drawRect(0, 0, this.navWidth * 0.4, 1);
-    this.btnHilight.rect.x = -this.navWidth * 0.2;
+      .drawRect(0, 0, this.navWidth * 0.5, 1);
+    this.btnHilight.rect.x = -this.navWidth * 0.25;
     this.btnHilight.addChild(
       this.btnHilight.circ1,
       this.btnHilight.circ2,
       this.btnHilight.rect
     );
-    this.addChild(this.btnHilight, this.project1, this.project2, this.project3);
+    this.btnHilight.alpha = 0.5
+    this.addChild(this.btnHilight, this.load, this.spinner,this.project1, this.project2, this.project3);
     this.prev = this.project1;
 
     this.projects.forEach((project) => {
@@ -126,33 +130,34 @@ export class Navbar extends Container {
   }
 
   update(deltaTime) {
+if (!this.isClicked) { 
     if (this.cyclePart < 4) {
       this.spinner.clear().beginFill();
-      this.diam = (this.diam + 1) % 66;
+      this.diam = (this.diam + 1) % 56;
     }
     if (this.diam === 0) this.cyclePart++;
     switch (this.cyclePart) {
       case 0:
-        this.spinner.lineTo(0, -65);
-        this.spinner.lineTo(this.diam, -65 + this.diam);
+        this.spinner.lineTo(0, -55);
+        this.spinner.lineTo(this.diam, -55 + this.diam);
         break;
       case 1:
-        this.spinner.lineTo(0, -65);
-        this.spinner.lineTo(65, 0);
-        this.spinner.lineTo(65 - this.diam, this.diam);
+        this.spinner.lineTo(0, -55);
+        this.spinner.lineTo(55, 0);
+        this.spinner.lineTo(55 - this.diam, this.diam);
         break;
       case 2:
-        this.spinner.lineTo(0, -65);
-        this.spinner.lineTo(65, 0);
-        this.spinner.lineTo(0, 65);
-        this.spinner.lineTo(-this.diam, 65 - this.diam);
+        this.spinner.lineTo(0, -55);
+        this.spinner.lineTo(55, 0);
+        this.spinner.lineTo(0, 55);
+        this.spinner.lineTo(-this.diam, 55 - this.diam);
         break;
       case 3:
-        this.spinner.lineTo(0, -65);
-        this.spinner.lineTo(65, 0);
-        this.spinner.lineTo(0, 65);
-        this.spinner.lineTo(-65, 0);
-        this.spinner.lineTo(-65 + this.diam, -this.diam);
+        this.spinner.lineTo(0, -55);
+        this.spinner.lineTo(55, 0);
+        this.spinner.lineTo(0, 55);
+        this.spinner.lineTo(-55, 0);
+        this.spinner.lineTo(-55 + this.diam, -this.diam);
         break;
       default:
         this.sceneSwitcher= (this.sceneSwitcher+1)%this.projects.length
@@ -162,6 +167,7 @@ export class Navbar extends Container {
         this.spinner.y=proj.y
         this.changeScene(proj)
     }
+ }
     // this.spinner.lineTo(-this.diam,0)
   }
   resize(w, h) {
@@ -172,20 +178,12 @@ export class Navbar extends Container {
   }
 
   changeScene(active,clicked) {
-    if (active.y === this.prev.y ) return
     if (!this.isClicked && clicked) {
-this.removeChild(this.spinner, this.load)
+      this.isClicked= true
+    new Tween(this.btnHilight).to({alpha:1},200).onComplete(()=>{this.removeChild(this.spinner, this.load)}).start()
     // Too lazy to change anchor, should probably use change scale and change anchor instead?
-    this.btnHilight.children.forEach(graphic=>graphic.clear())
-    this.btnHilight.x = this.navWidth / 2;
-    this.btnHilight.circ1.beginFill(0x39c0ba)
-      .drawCircle(0, 0, this.navWidth * 0.25);
-    this.btnHilight.circ2.beginFill(0x39c0ba)
-      .drawCircle(0, 0, this.navWidth * 0.25);
-    this.btnHilight.rect.beginFill(0x39c0ba)
-      .drawRect(0, 0, this.navWidth * 0.5, 1);
-    this.btnHilight.rect.x = -this.navWidth * 0.25;
     }
+    if (active.y === this.prev.y ) return
     active.activate(this.prev);
     this.projects.forEach((project) => {
       if (project.y !== active.y) {

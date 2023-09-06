@@ -257,7 +257,7 @@ export class skillIcons extends PIXI.Container {
 
       popIn() {
             return new Tween(this)
-                  .to({ alpha: 2 }, 300)
+                  .to({ alpha: 1 }, 300)
       }
       popOut() {
             return new Tween(this)

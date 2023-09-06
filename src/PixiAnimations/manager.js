@@ -4,7 +4,8 @@ import { Viewport } from "pixi-viewport";
 import { Navbar } from "./navBar.js";
 import { OrbitScene } from "./scenes/orbit-scene";
 import { ProjectScene } from "./scenes/projects-scene";
-import { manifest } from "./assets/assets";
+import { manifest } from "../assets/assets.js";
+import { WorldMap } from "./scenes/interactive-scene.js";
 export class Manager {
   constructor() {}
   static viewport;
@@ -73,11 +74,11 @@ export class Manager {
     Manager.app.stage.addChild(Manager.navbar);
   }
   static async initializeLoader() {
-    Manager.annexes(new Navbar());
     await Assets.init({ manifest });
-    Manager.startScene(new OrbitScene());
     await Assets.loadBundle("techIcons");
+    Manager.startScene(new OrbitScene());
     await Assets.loadBundle("rest");
+    Manager.annexes(new Navbar());
   }
 
   static startScene(scene) {

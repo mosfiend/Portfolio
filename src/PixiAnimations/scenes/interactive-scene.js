@@ -2,7 +2,7 @@ import {Container, Graphics, Assets, AnimatedSprite } from 'pixi.js'
 import { CompositeTilemap, Tilemap } from '@pixi/tilemap';
 import { Manager } from '../manager.js';
 import { Tween, Easing } from 'tweedle.js';
-import mapData from '../assets/data/map.json'
+import mapData from '../../assets/data/map.json'
 export class WorldMap extends Container {
     constructor() {
         super();

@@ -87,96 +87,18 @@ export class Project extends PIXI.Container {
         super();
         this.screenWidth = Manager.width;
         this.screenHeight = Manager.height;
-        this.isHovered = false
-        this.isClicked = false
-        this.terrainStart = terrainStart;
-        this.terrainEnd = terrainEnd;
-        this.carouselHeight = carouselHeight
-        this.sprite = PIXI.Sprite.from(sprite);
-        this.sprite.x = 0;
-        this.sprite.y = 0;
-        // this.sprite.width = 500;
-        // this.sprite.height = height;
-        this.y = this.terrainStart + (height + 20) * index; //position relative to overall carousel height
-        this.parallelogram = new PIXI.Graphics();
-        this.parallelogram.beginFill(0xffff00);
-        this.parallelogram.drawRect(0, 20, 500, height);
-        this.parallelogram.skew.y = Math.PI / 18;
-        this.sprite.mask = this.parallelogram;
-        this.addChild(this.sprite);
-        this.interactive = true;
-        this.buttonMode = true;
-        // this.on('click', function () {
-        //check if user has clicked on slide
-        //redirect user to desired link
-        // window.open(url, '_blank')
-        // });
-        this.on('mouseover', function () {
-            this.isHovered = true
-        })
-        this.on('mouseout', function () {
-            this.isHovered = false
-        })
-        this.on('pointerdown', function () {
-            // this.isClicked = !this.isClicked //If i end up doing the changes I am thinking of I'll end up removing this
-            this.isClicked ? this.enlarge() : this.shrink()
-        })
     }
 
     update(deltaTime) {
-        this.y += 2
-
-        if ((this.y) > this.terrainEnd) {
-            this.y = this.terrainStart
-        }
     }
 
     enlarge() {
-        this.isClicked = true;
-        const stuffToChange = {
-            x: this.x,
-            skew: this.parallelogram.skew.y,
-            maskScale: this.sprite.mask.scale
-        }
-        const changeTo = {
-            x: -this.screenWidth / 2,
-            skew: 0,
-            maskScale: 3
-        }
-        const enlargeForm = new Tween(stuffToChange)
-            .to(changeTo, 600)
-            .onUpdate(() => {
-                this.sprite.x = stuffToChange.x
-                this.parallelogram.skew.y = stuffToChange.skew
-                this.sprite.mask.scale = stuffToChange.maskScale
-            })
-        enlargeForm.start()
-
     }
     shrink() {
-        this.isClicked = false;
-        const stuffToChange = {
-            x: this.x, // === -this.screenWidth/2
-            skew: this.parallelogram.skew.y,  // === 0
             maskScale: this.sprite.mask.scale
-        }
-        const changeTo = {
-            x: 0,
-            skew: Math.PI / 18,
-            maskScale: 3
-        }
-        const enlargeForm = new Tween(stuffToChange)
-            .to(changeTo, 600)
-            .onUpdate(() => {
-                this.sprite.x = stuffToChange.x
-                this.parallelogram.skew.y = stuffToChange.skew
-                this.sprite.mask.scale = stuffToChange.maskScale
-            })
-        enlargeForm.start()
-
-    }
 }
 
+}
 // export class Contact extends PIXI.Container {
 //     constructor(width, height) {
 //         super();
