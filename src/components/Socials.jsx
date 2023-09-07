@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, Box, IconButton } from "@chakra-ui/react";
+import { Flex, Link, Box, IconButton } from "@chakra-ui/react";
 import { FaTwitter } from "react-icons/fa";
 import { FaLinkedin } from "react-icons/fa";
 import { FaGithub } from "react-icons/fa";
@@ -7,21 +7,33 @@ import { FaEnvelope } from "react-icons/fa";
 
 const Socials = () => {
   return (
-    <>
+    <Flex>
+<Box>
       <IconButton 
-      icon={<FaGithub color="white" size={"1.7em"} />}
+bg="none"
+      icon={<FaGithub color="#ccccdd" size={"1.7em"} />}
        />
+</Box>
+<Box>
       <IconButton 
-      icon={<FaLinkedin color="white" size={"1.7em"} />} 
+bg="none"
+      icon={<FaLinkedin  color="#ccccdd" size={"1.7em"} />} 
         />
+</Box>
+<Box>
       <IconButton 
-      icon={<FaTwitter color="white" size={"1.7em"} />}
+bg="none"
+      icon={<FaTwitter  color="#ccccdd" size={"1.7em"} />}
          />
+</Box>
+<Box>
       <IconButton 
-      icon={<FaEnvelope color="white" size={"1.7em"} />}
+      bg="transparent" 
+      icon={<FaEnvelope color="#ccccdd" size={"1.7em"} />}
          />
+</Box>
 
-    </>
+    </Flex>
   );
 };
 

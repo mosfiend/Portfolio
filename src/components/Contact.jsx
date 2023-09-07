@@ -7,7 +7,7 @@ export default function Contact() {
       <Box borderRadius="lg" p={8} shadow="base">
         <VStack spacing={5}>
         <ContactForm />
-          <Button>Hire me jee</Button> <Socials />{" "}
+         <Socials />
         </VStack>
 
       </Box>

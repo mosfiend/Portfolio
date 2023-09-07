@@ -48,6 +48,12 @@ const theme = extendTheme({
         },
       },
     },
+    Button: {
+      baseStyle: {
+      colorScheme:"gray",
+        background: "#0cd",
+      },
+    },
   },
   fonts: {
     body: "Quicksand, sans-serif",

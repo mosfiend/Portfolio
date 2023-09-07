@@ -75,10 +75,10 @@ export class Manager {
   }
   static async initializeLoader() {
     await Assets.init({ manifest });
-    await Assets.loadBundle("techIcons");
-    Manager.startScene(new OrbitScene());
     await Assets.loadBundle("rest");
+    Manager.startScene(new ProjectScene());
     Manager.annexes(new Navbar());
+    await Assets.loadBundle("techIcons");
   }
 
   static startScene(scene) {

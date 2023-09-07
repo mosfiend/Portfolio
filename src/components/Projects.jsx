@@ -1,20 +1,33 @@
-import { Box, Grid, GridItem } from "@chakra-ui/react";
-
+import {Flex,Heading,Text,IconButton, Box, Grid, GridItem } from "@chakra-ui/react";
+import { FaGithub } from "react-icons/fa";
+import {HiExternalLink} from "react-icons/hi";
 const Projects = () => {
   return (
     <Box>
-      <h2>Projects</h2>
-      <Grid templateColumns="repeat(3, 1fr)" gap={4} p={4}>
-        <GridItem bg="gray.300" p={4} height="200px" margin="10px">
-          {/* Project 1 content here */}
-        </GridItem>
-        <GridItem bg="gray.300" p={4} height="200px" margin="10px">
-          {/* Project 2 content here */}
-        </GridItem>
-        <GridItem bg="gray.300" p={4} height="200px" margin="10px">
-          {/* Project 3 content here */}
-        </GridItem>
-      </Grid>
+        <Heading as="h1" fontSize="5xl" m={4}>
+        Previous work
+        </Heading>
+
+<Box textAlign="left">
+        <Heading as="h2" fontSize="4xl" m={4}>
+        workout app!
+        </Heading>
+       <Text> An app I worked on a millenia ago, seems you're still interested?</Text>
+</Box>
+<Flex justifyContent="flex-end">
+<Box>
+      <IconButton 
+bg="none"
+      icon={<FaGithub color="#ccccdd" size={"1.7em"} />}
+       />
+</Box>
+<Box>
+      <IconButton 
+bg="none"
+      icon={<HiExternalLink color="#ccccdd" size={"1.7em"} />}
+       />
+</Box>
+</Flex>
     </Box>
   );
 };
