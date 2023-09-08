@@ -31,7 +31,7 @@ const Showcase = (props) => {
         position="absolute"
         top="10vh"
         left="3vw"
-        bg="#69696969"
+        bg="#39c0ba44"
         width="30vw"
         backdropFilter="auto"
         backdropBlur="7px"

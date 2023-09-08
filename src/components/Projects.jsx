@@ -12,7 +12,7 @@ const Projects = () => {
         <Heading as="h2" fontSize="4xl" m={4}>
         workout app!
         </Heading>
-       <Text> An app I worked on a millenia ago, seems you're still interested?</Text>
+       <Text> An app I worked on a while ago, still looking good </Text>
 </Box>
 <Flex justifyContent="flex-end">
 <Box>

@@ -5,10 +5,8 @@ export default function Contact() {
   
   return (
       <Box borderRadius="lg" p={8} shadow="base">
-        <VStack spacing={5}>
         <ContactForm />
          <Socials />
-        </VStack>
 
       </Box>
     )

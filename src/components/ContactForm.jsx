@@ -21,10 +21,8 @@ import { MdOutlineEmail } from "react-icons/md";
 export default function ContactFormWithSocialButtons() {
   const { hasCopied, onCopy } = useClipboard("example@example.com");
 
-  return (<>
-          <FormControl method="POST" data-netlify="true" isRequired>
-            <FormLabel>Name</FormLabel>
-
+  return (<form method="POST" data-netlify="true" >
+          <FormControl  isRequired>
             <InputGroup>
               <InputLeftElement>
                 <BsPerson />
@@ -56,6 +54,7 @@ export default function ContactFormWithSocialButtons() {
           </FormControl>
 
           <Button
+            as="submit"
             _hover={
               {
                 //do what you want
@@ -65,6 +64,6 @@ export default function ContactFormWithSocialButtons() {
           >
             Send Message
           </Button>
-  </>
+  </form>
   );
 }

@@ -21,7 +21,7 @@ export class Navbar extends Container {
     this.load = new Graphics()
       .beginFill(0x39c0ba)
       .drawCircle(0, 0, this.navWidth * 0.25);
-    this.load.alpha = 0.5;
+    this.load.alpha = 1;
     this.load.x = this.navWidth / 2;
     this.ang = 0;
     this.diam = 1;
@@ -67,12 +67,13 @@ export class Navbar extends Container {
       .beginFill(0x39c0ba)
       .drawRect(0, 0, this.navWidth * 0.5, 1);
     this.btnHilight.rect.x = -this.navWidth * 0.25;
+    this.btnHilight.rect.alpha = 0;
     this.btnHilight.addChild(
       this.btnHilight.circ1,
       this.btnHilight.circ2,
       this.btnHilight.rect
     );
-    this.btnHilight.alpha = 0.5;
+    this.btnHilight.alpha = 0.3;
     this.addChild(
       this.btnHilight,
       this.load,
@@ -100,34 +101,34 @@ export class Navbar extends Container {
   }
 
   update(deltaTime) {
-    if (!this.isClicked) {
+    if (!this.isClicked && this.isClicky) {
       if (this.cyclePart < 4) {
         this.spinner.clear().beginFill();
-        this.diam = (this.diam + 1) % 56;
+        this.diam = (this.diam + 1) % 1000;
       }
       if (this.diam === 0) this.cyclePart++;
       switch (this.cyclePart) {
         case 0:
-          this.spinner.lineTo(0, -55);
-          this.spinner.lineTo(this.diam, -55 + this.diam);
+          this.spinner.lineTo(0, -1000);
+          this.spinner.lineTo(this.diam, -1000 + this.diam);
           break;
         case 1:
-          this.spinner.lineTo(0, -55);
-          this.spinner.lineTo(55, 0);
-          this.spinner.lineTo(55 - this.diam, this.diam);
+          this.spinner.lineTo(0, -1000);
+          this.spinner.lineTo(1000, 0);
+          this.spinner.lineTo(1000 - this.diam, this.diam);
           break;
         case 2:
-          this.spinner.lineTo(0, -55);
-          this.spinner.lineTo(55, 0);
-          this.spinner.lineTo(0, 55);
-          this.spinner.lineTo(-this.diam, 55 - this.diam);
+          this.spinner.lineTo(0, -1000);
+          this.spinner.lineTo(1000, 0);
+          this.spinner.lineTo(0, 1000);
+          this.spinner.lineTo(-this.diam, 1000 - this.diam);
           break;
         case 3:
-          this.spinner.lineTo(0, -55);
-          this.spinner.lineTo(55, 0);
-          this.spinner.lineTo(0, 55);
-          this.spinner.lineTo(-55, 0);
-          this.spinner.lineTo(-55 + this.diam, -this.diam);
+          this.spinner.lineTo(0, -1000);
+          this.spinner.lineTo(1000, 0);
+          this.spinner.lineTo(0, 1000);
+          this.spinner.lineTo(-1000, 0);
+          this.spinner.lineTo(-1000 + this.diam, -this.diam);
           break;
         default:
           this.sceneSwitcher = (this.sceneSwitcher + 1) % this.scenes.length;
@@ -175,8 +176,14 @@ export class Navbar extends Container {
 
     const timeCoeff = 250;
     //part 1
+      new Tween(this.btnHilight)
+        .to({ alpha: 1 },50 )
+        .start();
     const expandMovement = new Tween(this.btnHilight.rect)
       .to({ height: active.y - this.prev.y }, timeCoeff / 4)
+      .onStart(() => {
+      this.btnHilight.rect.alpha = 1
+      })
       .onUpdate(() => {
         this.btnHilight.circ2.y =
           this.btnHilight.rect.y + this.btnHilight.rect.height;
@@ -192,10 +199,11 @@ export class Navbar extends Container {
       })
       .onComplete(()=> {
     this.isClicky = true
+this.btnHilight.alpha = this.isClicked?1:0.3
+this.btnHilight.rect.alpha = 0
       }
       )
       .easing(Easing.Elastic.InOut);
-
     expandMovement.chain(shrinkMovement);
     this.prev = { y: active.y };
   }
@@ -206,8 +214,8 @@ class NavButton extends Graphics {
     super();
     this.x = x;
     this.y = y;
-    this.interactive = true;
-    this.buttonMode = true;
+    this.eventMode = 'static'
+this.cursor = "pointer"
     this.active = false;
     this.alpha = active ? 1 : 0.3;
     this.scene = scene;

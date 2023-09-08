@@ -1,4 +1,4 @@
-import { Assets, Application } from "pixi.js";
+import { Assets, Application, Renderer } from "pixi.js";
 import { Tween, Group } from "tweedle.js";
 import { Viewport } from "pixi-viewport";
 import { Navbar } from "./navBar.js";
@@ -39,7 +39,7 @@ export class Manager {
     });
     globalThis.__PIXI_APP__ = Manager.app;
 
-    Manager.app.stage.interactive = true;
+    Manager.app.stage.eventMode = 'static'
     Manager.app.stage.sortableChildren = true;
     Manager.app.ticker.add(Manager.update);
     window.addEventListener("resize", Manager.resize);
@@ -75,10 +75,11 @@ export class Manager {
   }
   static async initializeLoader() {
     await Assets.init({ manifest });
-    await Assets.loadBundle("rest");
+    await Assets.loadBundle("projectScene");
     Manager.startScene(new ProjectScene());
     Manager.annexes(new Navbar());
-    await Assets.loadBundle("techIcons");
+    await Assets.loadBundle("orbitScene");
+    await Assets.loadBundle("interactiveScene");
   }
 
   static startScene(scene) {
