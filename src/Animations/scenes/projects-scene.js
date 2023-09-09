@@ -5,7 +5,8 @@ export class ProjectScene extends Container {
   #idx = 0;
   #dir = 1;
   #projWidth = 300;
-  #margin = 30
+  #margin = 30;
+  #num = 1;
   // a scene covering  only half the screen what a joke
   constructor() {
     super();
@@ -14,36 +15,92 @@ export class ProjectScene extends Container {
     this.isActive = false;
     this.scrollJuice = 0;
     this.projects = [];
-    this.makeProject("workout");
-    this.makeProject("quotes");
     this.makeProject("pancreas");
     this.makeProject("drum");
     this.makeProject("workout");
     this.makeProject("quotes");
-    this.makeProject("pancreas");
-    this.makeProject("drum");
+    this.makeProject("workout");
+    this.makeProject("quotes");
     this.head = 0;
+    this.sceneWidth =
+      (this.projects.length - 1) * (this.#projWidth + this.#margin);
+    this.limitL = Math.min(
+      this.screenWidth / 2 - this.sceneWidth / 2 - this.#projWidth,
+      -this.#projWidth
+    );
+    this.limitR = Math.max(
+      this.screenWidth,
+      this.screenWidth / 2 + this.sceneWidth / 2
+    );
     this.tail = this.projects.length - 1;
 
-    this.projects.forEach((proj,idx) => {
+    this.addChild(
+      new Graphics().beginFill(0xff0000).drawRect(this.limitL, 0, 3, 1000)
+    );
+    this.addChild(
+      new Graphics().beginFill(0xff0000).drawRect(this.limitR, 0, 3, 1000)
+    );
+    this.addChild(
+      new Graphics()
+        .beginFill(0xff0000)
+        .drawRect(this.screenWidth / 2, 0, 3, 1000)
+    );
+    this.projects.forEach((proj, idx) => {
       this.addChild(proj);
 
       proj.on("click", (e) => {
-        this.isActive = true
+        this.isActive = true;
+        this.tail = idx;
+        const target = this.projects[idx];
+        const newW = this.#projWidth * 2;
+        const newX = this.screenWidth - newW - this.#margin;
+        const trueIdx =
+          (idx - this.head + this.projects.length) % this.projects.length;
+        const distL = newX - this.projects[idx].x 
+        const distR = distL + this.#projWidth
+        for (let i = 0; i < this.projects.length; i++) {
 
-this.tail = idx
-        const target = this.projects[idx]
-        const newX = this.screenWidth-this.#projWidth*2
-        const newW=this.#projWidth
-        proj.center(this.screenWidth-this.#projWidth*2,this.#projWidth);
-        for (let i=idx+1;i!==this.head;i=(i+1+this.projects.length)%this.projects.length) {
-const trueIdx = (i-(idx+1)+this.projects.length)%this.projects.length;
-new Tween(this.projects[i]).to({x:newW+newX+(this.#projWidth+30)*trueIdx},400)
-.start()
+          const curIdx =
+            (i - this.head + this.projects.length) % this.projects.length;
+          console.log(curIdx);
+          if (curIdx === trueIdx) {
+            proj.center(newX, newW);
+          } else if (curIdx < trueIdx) {
+            const may = new Tween(this.projects[i])
+              .to(
+                {
+                  x: this.projects[i].x+distL
+                },
+                400
+              )
+              .start();
+          } else {
+            const may = new Tween(this.projects[i])
+              .to(
+                {
+                  x: this.projects[i].x+distR 
+                },
+                400
+              )
+              .start();
+          }
         }
-        for (let i=idx+1;i!==this.head;i=(i+1+this.projects.length)%this.projects.length) {
-this.roundDown(i)
-        }
+
+        //         proj.center(newX,newW);
+        //         for (let i=(idx+1)%this.projects.length;i!==this.head;i=(i+1+this.projects.length)%this.projects.length) {
+        // const trueIdx = (i-(idx+1)+this.projects.length)%this.projects.length;
+        // const may =new Tween(this.projects[i]).to({
+        //   x:newX+newW+this.#margin+(this.#projWidth+this.#margin)*trueIdx
+        // },400).start()
+        //         }
+        // const head =(this.head-1+this.projects.length)%this.projects.length
+        //         console.log(head)
+        //         for (let i=(idx-1+this.projects.length)%this.projects.length;i!==head;i=(i-1+this.projects.length)%this.projects.length) {
+        // const trueIdx = (i-(this.head)+this.projects.length)%this.projects.length;
+        // const may =new Tween(this.projects[i]).to({
+        // x:newX-(this.#projWidth+this.#margin)*(trueIdx+1)
+        // },400).start()
+        //         }
       });
     });
     Manager.app.stage.on("wheel", (e) => {
@@ -51,35 +108,34 @@ this.roundDown(i)
     });
   }
 
-  update(deltaTime) {
+  update(_deltaTime) {
     if (!this.isActive) {
       for (let i = 0; i < this.projects.length; i++) {
         const scrollJuice = this.scrollJuice / 10;
-        this.projects[i].x += 2 + scrollJuice;
+        this.projects[i].x += this.projects[i].v + scrollJuice;
         if (i === this.projects.length - 1) this.scrollJuice -= scrollJuice;
       }
-
-    if (this.projects[this.tail].x > this.screenWidth) {
-      this.roundDown(this.tail);
-      this.tail =
-        (this.tail - 1 + this.projects.length) % this.projects.length;
-      this.head =
-        (this.head - 1 + this.projects.length) % this.projects.length;
     }
-      if (this.projects[this.head].x < -this.#projWidth) {
-        const target = this.projects[this.head];
-        target.x = this.projects[this.tail].x + 30 + target.width;
-
-        this.tail = (this.tail + 1) % this.projects.length;
-        this.head = (this.head + 1) % this.projects.length;
-      }
-    }
-  }
-  roundDown(idx) {
-      console.log(idx,this.tail)
+    if (
+      this.scrollJuice >= -20 && // temporary way to gauge if projects are going ltr or rtl
+      this.projects[this.tail].x > this.limitR
+    ) {
       const target = this.projects[this.tail];
-      this.projects[idx].x = this.projects[this.head].x - 30 - target.width;
+      this.projects[this.tail].x =
+        this.projects[this.head].x - 30 - target.width;
+      this.tail = (this.tail - 1 + this.projects.length) % this.projects.length;
+      this.head = (this.head - 1 + this.projects.length) % this.projects.length;
+      this.#num++;
+    }
+    if (this.scrollJuice < -20 && this.projects[this.head].x < this.limitL) {
+      const target = this.projects[this.head];
+      target.x = this.projects[this.tail].x + 30 + target.width;
+
+      this.tail = (this.tail + 1) % this.projects.length;
+      this.head = (this.head + 1) % this.projects.length;
+    }
   }
+  roundDown(idx) {}
 
   resize() {
     this.screenWidth = Manager.width;
@@ -106,8 +162,9 @@ this.roundDown(i)
       if (this.#dir === 1) this.#idx--;
     }
     const x =
-      this.screenWidth / 2 - width / 2 + (width + this.#margin) * this.#idx++ * this.#dir;
-    this.addChild(new Graphics().beginFill(0xff0000).drawRect(x, 0, 3, 1000));
+      this.screenWidth / 2 -
+      width / 2 +
+      (width + this.#margin) * this.#idx++ * this.#dir;
     const proj = new Project(x, y, width, height, src);
     if (this.#dir === -1) {
       this.projects.unshift(proj);
@@ -120,11 +177,11 @@ this.roundDown(i)
 class Project extends Container {
   constructor(x, y, width, height, src) {
     super();
+    this.v = 2;
     this.eventMode = "static";
     this.sprite = Sprite.from(src);
     this.sprite.eventMode = "static";
     this.sprite.cursor = "pointer";
-    this.sprite.x = -this.sprite.width / 2;
     this.marginY = Math.min(40, height / 10);
     this.boundaries = new Graphics().beginFill().drawRect(0, 0, width, height);
     this.x = x;
@@ -132,23 +189,23 @@ class Project extends Container {
     this.sprite.mask = this.boundaries;
     this.addChild(this.sprite, this.boundaries);
   }
-  center(x, width) {
-    const cur = {
 
-x:this.x,
-width:this.boundaries.width
-    }
+  center(x, width) {
+  
+   const cur ={
+      x: this.x,
+      width: this.boundaries.width,
+    };
     const target = {
-x:500,
-width:width*2
-    } 
+      x: x,
+      width: width,
+    };
     new Tween(cur)
-      .to(target,400)
+      .to(target, 400)
       .onUpdate(() => {
-this.x = cur.x
-this.boundaries.width = cur.width
+        this.x = cur.x;
+        this.boundaries.width = cur.width;
       })
       .start();
-
   }
 }

@@ -4,7 +4,7 @@ import {HiExternalLink} from "react-icons/hi";
 const Projects = () => {
   return (
     <Box>
-        <Heading as="h1" fontSize="5xl" m={4}>
+        <Heading as="h1" fontSize="5xl" textAlign="center" m={4}>
         Previous work
         </Heading>
 
@@ -12,7 +12,8 @@ const Projects = () => {
         <Heading as="h2" fontSize="4xl" m={4}>
         workout app!
         </Heading>
-       <Text> An app I worked on a while ago, still looking good </Text>
+       <Text m={4}> An app I worked on a while ago, still looking good 
+       </Text>
 </Box>
 <Flex justifyContent="flex-end">
 <Box>

@@ -1,4 +1,3 @@
-
 const projectData = [
     {
 name:"Workout Planner",
