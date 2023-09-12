@@ -1,18 +1,19 @@
-import { Graphics, Container, Sprite } from "pixi.js";
+import { Text,Graphics, Container, Sprite } from "pixi.js";
 import { Easing, Tween } from "tweedle.js";
 import { Manager } from "../manager";
 export class ProjectScene extends Container {
   #idx = 0;
   #dir = 1;
-  #projWidth = 300;
+  #projWidth = 320;
   #margin = 30;
-  #num = 1;
   // a scene covering  only half the screen what a joke
   constructor() {
     super();
     this.screenWidth = Manager.width;
     this.screenHeight = Manager.height;
-    this.isActive = false;
+    this.isActive = true;
+    this.isClicked = false
+    this.activeIdx = -1;
     this.scrollJuice = 0;
     this.projects = [];
     this.makeProject("pancreas");
@@ -23,109 +24,218 @@ export class ProjectScene extends Container {
     this.makeProject("quotes");
     this.head = 0;
     this.sceneWidth =
-      (this.projects.length - 1) * (this.#projWidth + this.#margin);
-    this.limitL = Math.min(
-      this.screenWidth / 2 - this.sceneWidth / 2 - this.#projWidth,
-      -this.#projWidth
-    );
-    this.limitR = Math.max(
-      this.screenWidth,
-      this.screenWidth / 2 + this.sceneWidth / 2
-    );
+      (this.projects.length ) * (this.#projWidth + this.#margin);
+    (this.limitL =
+      this.screenWidth / 2 - this.sceneWidth / 2 - this.#projWidth),
+      (this.limitR = this.screenWidth / 2 + this.sceneWidth / 2);
     this.tail = this.projects.length - 1;
+    this.distL = 0;
+    this.distR = 0;
 
-    this.addChild(
-      new Graphics().beginFill(0xff0000).drawRect(this.limitL, 0, 3, 1000)
-    );
-    this.addChild(
-      new Graphics().beginFill(0xff0000).drawRect(this.limitR, 0, 3, 1000)
-    );
-    this.addChild(
-      new Graphics()
-        .beginFill(0xff0000)
-        .drawRect(this.screenWidth / 2, 0, 3, 1000)
-    );
     this.projects.forEach((proj, idx) => {
       this.addChild(proj);
 
-      proj.on("click", (e) => {
-        this.isActive = true;
-        this.tail = idx;
-        const target = this.projects[idx];
-        const newW = this.#projWidth * 2;
-        const newX = this.screenWidth - newW - this.#margin;
-        const trueIdx =
-          (idx - this.head + this.projects.length) % this.projects.length;
-        const distL = newX - this.projects[idx].x 
-        const distR = distL + this.#projWidth
-        for (let i = 0; i < this.projects.length; i++) {
+        proj.on("click", (e) => {
+          if (this.isClicked) return;
+          this.isClicked = true
+          if (this.activeIdx === -1) {
+            this.isActive = false;
+            this.activeIdx = idx;
 
-          const curIdx =
-            (i - this.head + this.projects.length) % this.projects.length;
-          console.log(curIdx);
-          if (curIdx === trueIdx) {
-            proj.center(newX, newW);
-          } else if (curIdx < trueIdx) {
-            const may = new Tween(this.projects[i])
-              .to(
-                {
-                  x: this.projects[i].x+distL
-                },
-                400
-              )
-              .start();
+            const newW = this.#projWidth * 2;
+            const newX = this.screenWidth - newW - this.#margin;
+            const trueIdx =
+              (idx - this.head + this.projects.length) % this.projects.length;
+            const L = newX - this.projects[idx].x;
+            const R = L + this.#projWidth;
+            this.distL = L;
+            this.distR = R;
+            for (let i = 0; i < this.projects.length; i++) {
+              const curIdx =
+                (i - this.head + this.projects.length) % this.projects.length;
+              if (curIdx === trueIdx) {
+                proj.center(newX, newW).onComplete(()=>{
+  this.isClicked = false
+                });
+              } else if (curIdx < trueIdx) {
+                let temp = this.projects[i].x;
+                const may = new Tween(this.projects[i])
+                  .to(
+                    {
+                      x: this.projects[i].x + this.distL,
+                    },
+                    400
+                  )
+                  .onUpdate(() => {
+                    if (this.projects[i].x < this.limitL) {
+                      const timeLeft = 400 - may._elapsedTime;
+                      may.stop();
+                      const target = this.projects[this.tail];
+                      this.projects[i].x =
+                        target.x + target.bounds.width + 30;
+                      this.tail = (this.tail + 1) % this.projects.length;
+                      this.head = (this.head + 1) % this.projects.length;
+                      const june = new Tween(this.projects[i])
+                        .to({}, timeLeft)
+                        .onUpdate(() => {
+                          this.projects[i].x = target.x + 30 + target.bounds.width
+                        })
+                        .start();
+                    }
+                  })
+                  .start();
+              } else {
+                let temp = this.projects[i].x;
+                const may = new Tween(this.projects[i])
+                  .to(
+                    {
+                      x: this.projects[i].x + this.distR,
+                    },
+                    400
+                  )
+                  .onUpdate(() => {
+                    if (this.projects[i].x > this.limitR) {
+                      const timeLeft = 400 - may._elapsedTime;
+                      const ratio1 = may._elapsedTime / 400;
+                      const ratio2 =
+                        ((this.projects[i].x - temp) / this.distL) * 100;
+                      may.stop();
+                      const target = this.projects[this.head];
+                      this.projects[i].x =
+                        this.projects[this.head].x - this.#projWidth - 30;
+                      this.tail =
+                        (this.tail - 1 + this.projects.length) %
+                        this.projects.length;
+                      this.head =
+                        (this.head - 1 + this.projects.length) %
+                        this.projects.length;
+                      const june = new Tween(this.projects[i])
+                        .to({}, timeLeft)
+                        .onUpdate(() => {
+                          this.projects[i].x = target.x - 30 - this.#projWidth;
+                        })
+                        .start();
+                    }
+                  })
+                  .start();
+              }
+            }
+          } else if (this.activeIdx === idx) {
+            this.activeIdx = -1;
+
+
+            const newW = this.#projWidth * 2;
+            const newX = this.screenWidth - newW - this.#margin;
+            const trueIdx =
+              (idx-this.head + this.projects.length) % this.projects.length;
+            const L = newX - this.projects[idx].x;
+            const R = L + this.#projWidth;
+            this.distL = 0;
+            this.distR = this.#projWidth;
+            for (let i = 0; i < this.projects.length; i++) {
+              const curIdx =
+                (i - this.head + this.projects.length) % this.projects.length;
+              if (curIdx === trueIdx) {
+                this.projects[i].center(newX, newW).onComplete(()=>{
+            this.isActive = true;
+            this.isClicked = false
+                });
+              } else if (curIdx < trueIdx) {
+              } else {
+                const may = new Tween(this.projects[i])
+                  .to(
+                    {
+                      x: this.projects[i].x - this.distR,
+                    },
+                    400
+                  )
+                  .start();
+              }
+            }
+
           } else {
-            const may = new Tween(this.projects[i])
-              .to(
-                {
-                  x: this.projects[i].x+distR 
-                },
-                400
-              )
-              .start();
-          }
-        }
+            this.isActive = false;
+            const prev = this.activeIdx
+            this.activeIdx = idx;
+            const prevIdx = (prev+this.head)%this.projects.length;
+            const newW = this.#projWidth * 2;
+            const newX = this.screenWidth - newW - this.#margin;
+            const trueIdx =
+              (idx + this.head) % this.projects.length;
+            const L = newX - this.projects[idx].x;
+            const R = L + this.#projWidth;
+            this.distL = L;
+            this.distR = R;
 
-        //         proj.center(newX,newW);
-        //         for (let i=(idx+1)%this.projects.length;i!==this.head;i=(i+1+this.projects.length)%this.projects.length) {
-        // const trueIdx = (i-(idx+1)+this.projects.length)%this.projects.length;
-        // const may =new Tween(this.projects[i]).to({
-        //   x:newX+newW+this.#margin+(this.#projWidth+this.#margin)*trueIdx
-        // },400).start()
-        //         }
-        // const head =(this.head-1+this.projects.length)%this.projects.length
-        //         console.log(head)
-        //         for (let i=(idx-1+this.projects.length)%this.projects.length;i!==head;i=(i-1+this.projects.length)%this.projects.length) {
-        // const trueIdx = (i-(this.head)+this.projects.length)%this.projects.length;
-        // const may =new Tween(this.projects[i]).to({
-        // x:newX-(this.#projWidth+this.#margin)*(trueIdx+1)
-        // },400).start()
-        //         }
-      });
+            for (let i = 0; i < this.projects.length; i++) {
+              const curIdx =
+                (i + this.head ) % this.projects.length;
+              if (curIdx === trueIdx) {
+                proj.center(newX, newW).onComplete(()=>{
+  this.isClicked = false
+                });
+
+              } else if (curIdx === prevIdx)  { 
+  this.projects[i].center(newX,newW)
+  console.log(curIdx,prevIdx,trueIdx)
+} else if (curIdx >trueIdx )  {
+                const may = new Tween(this.projects[i])
+                  .to(
+                    {
+                      x: this.projects[i].x + this.distL + this.#projWidth
+                    },
+                    400
+                  )
+                  .start();
+
+              } else {
+                const may = new Tween(this.projects[i])
+                  .to(
+                    {
+                      x: this.projects[i].x + this.distL,
+                    },
+                    400
+                  )
+                  .start();
+              }
+            }
+          }
+
+        
+        });
     });
     Manager.app.stage.on("wheel", (e) => {
       this.scrollJuice += e.deltaY;
     });
   }
 
-  update(_deltaTime) {
-    if (!this.isActive) {
+  update(deltaTime) {
+    let tail = this.tail
+    let head = this.head
+    this.projects.forEach((a,i)=>{
+if (a.x<=this.projects[this.head].x) head = i
+if (a.x>=this.projects[this.tail].x) tail = i
+a.text.text=(i-this.head+this.projects.length)%this.projects.length
+if (i===this.projects.length-1) {
+this.head = head
+this.tail = tail
+}
+    })
+    if (!this.isActive) return;
       for (let i = 0; i < this.projects.length; i++) {
         const scrollJuice = this.scrollJuice / 10;
         this.projects[i].x += this.projects[i].v + scrollJuice;
         if (i === this.projects.length - 1) this.scrollJuice -= scrollJuice;
       }
-    }
     if (
       this.scrollJuice >= -20 && // temporary way to gauge if projects are going ltr or rtl
       this.projects[this.tail].x > this.limitR
     ) {
-      const target = this.projects[this.tail];
+      const tail = this.projects[this.tail];
       this.projects[this.tail].x =
-        this.projects[this.head].x - 30 - target.width;
+        this.projects[this.head].x - 30 - tail.width;
       this.tail = (this.tail - 1 + this.projects.length) % this.projects.length;
       this.head = (this.head - 1 + this.projects.length) % this.projects.length;
-      this.#num++;
     }
     if (this.scrollJuice < -20 && this.projects[this.head].x < this.limitL) {
       const target = this.projects[this.head];
@@ -135,7 +245,6 @@ export class ProjectScene extends Container {
       this.head = (this.head + 1) % this.projects.length;
     }
   }
-  roundDown(idx) {}
 
   resize() {
     this.screenWidth = Manager.width;
@@ -178,34 +287,53 @@ class Project extends Container {
   constructor(x, y, width, height, src) {
     super();
     this.v = 2;
+    this.isActive = false;
     this.eventMode = "static";
     this.sprite = Sprite.from(src);
     this.sprite.eventMode = "static";
     this.sprite.cursor = "pointer";
     this.marginY = Math.min(40, height / 10);
-    this.boundaries = new Graphics().beginFill().drawRect(0, 0, width, height);
+    this.bounds = new Graphics().beginFill().drawRect(0, 0, width, height);
+    this.text = new Text("Hello",{fontSize:30,fill:0xFF0000})
+    this.text.x = width/2
     this.x = x;
     this.y = y;
-    this.sprite.mask = this.boundaries;
-    this.addChild(this.sprite, this.boundaries);
+    this.sprite.mask = this.bounds;
+    this.addChild(this.sprite, this.bounds,this.text);
   }
+// one loop
 
   center(x, width) {
-  
-   const cur ={
-      x: this.x,
-      width: this.boundaries.width,
-    };
-    const target = {
-      x: x,
-      width: width,
-    };
-    new Tween(cur)
-      .to(target, 400)
-      .onUpdate(() => {
-        this.x = cur.x;
-        this.boundaries.width = cur.width;
-      })
-      .start();
+    this.isActive = !this.isActive;
+    if (this.isActive) {
+      const cur = {
+        x: this.x,
+        width: this.bounds.width,
+      };
+      const target = {
+        x: x,
+        width: width,
+      };
+    return  new Tween(cur)
+        .to(target, 400)
+        .onUpdate(() => {
+          this.x = cur.x;
+          this.bounds.width = cur.width;
+        })
+        .start();
+    } else {
+      const cur = {
+        width: this.bounds.width,
+      };
+      const target = {
+        width: width / 2,
+      };
+    return  new Tween(cur)
+        .to(target, 400)
+        .onUpdate(() => {
+          this.bounds.width = cur.width;
+        })
+        .start();
+    }
   }
 }

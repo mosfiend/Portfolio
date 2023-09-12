@@ -42,14 +42,14 @@ export class Navbar extends Container {
       this.navWidth / 2,
       this.navHeight * 0.3,
       this.navWidth * 0.15,
-      WorldMap,
+      ProjectScene,
       false
     );
     this.scene3 = new NavButton(
       this.navWidth / 2,
       this.navHeight * 0.6,
       this.navWidth * 0.15,
-      ProjectScene,
+      WorldMap,
       false
     );
     this.scenes = [this.scene1, this.scene2, this.scene3];

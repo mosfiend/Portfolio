@@ -3,11 +3,13 @@
 * Tasks
 ** DONE Implement glassmorphism
 ** TODO PIXI animations
-  SCHEDULED: <2023-08-31 Thu>
-    * [ ] rotating icon countdown 
-    * [ ] figure out what to do with the third tab
+    * [X] rotating icon countdown 
+    * [X] figure out what to do with the third tab
     * [ ] optimize each tab
     * [X] better scene management
+    * [ ] refactor projects scene: 
+        * have an array keeping track of how much each entry in projects should slide
+
 ** TODO Form handling
   * [X] frontend layout for the form
   * [X] better styling, make bg easier on the eye to read
@@ -19,10 +21,14 @@
 
 * Portfolio
   :LOGBOOK:
-  CLOCK: [2023-09-09 Sat 21:39]
+  CLOCK: [2023-09-11 Mon 16:58]--[2023-09-11 Mon 17:39] => 0:41
+  CLOCK: [2023-09-11 Mon 00:53]--[2023-09-11 Mon 02:41] => 1:48
+  CLOCK: [2023-09-10 Sun 19:36]--[2023-09-10 Sun 21:44] => 2:08
+  CLOCK: [2023-09-10 Sun 11:51]--[2023-09-10 Sun 13:15] => 1:24
+  CLOCK: [2023-09-09 Sat 21:39]--[2023-09-09 Sat 23:37] => 1:58
   CLOCK: [2023-09-08 Fri 23:54]--[2023-09-09 Sat 00:48] => 0:54
   CLOCK: [2023-09-08 Fri 21:17]--[2023-09-08 Fri 22:29] => 1:12
-  CLOCK: <2023-09-07 Thu 23:46>--[2023-09-08 Fri 01:35] => 1:49
+  CLOCK: [2023-09-07 Thu 23:46]--[2023-09-08 Fri 01:35] => 1:49
   CLOCK: [2023-09-07 Thu 22:02]--[2023-09-07 Thu 23:21] => 1:19
   CLOCK: [2023-09-06 Wed 21:00]--[2023-09-06 Wed 23:42] => 2:42
   CLOCK: [2023-09-06 Wed 18:46]--[2023-09-06 Wed 19:54] => 1:08
