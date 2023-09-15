@@ -94,7 +94,7 @@ export class Navbar extends Container {
         }
       });
       scene.on("pointerover", () => {
-          new Tween(scene).to({ alpha: 1 }, 300).start();
+        new Tween(scene).to({ alpha: 1 }, 300).start();
       });
     });
 
@@ -176,34 +176,34 @@ export class Navbar extends Container {
 
     const timeCoeff = 250;
     //part 1
-      new Tween(this.btnHilight)
-        .to({ alpha: 1 },50 )
-        .start();
-    const expandMovement = new Tween(this.btnHilight.rect)
-      .to({ height: active.y - this.prev.y }, timeCoeff / 4)
-      .onStart(() => {
-      this.btnHilight.rect.alpha = 1
-      })
-      .onUpdate(() => {
-        this.btnHilight.circ2.y =
-          this.btnHilight.rect.y + this.btnHilight.rect.height;
-      })
-      .easing(Easing.Cubic.In)
+    new Tween(this.btnHilight)
+      .to({ alpha: 1 },50 )
       .start();
+    const expandMovement = new Tween(this.btnHilight.rect)
+    .to({ height: active.y - this.prev.y }, timeCoeff / 4)
+    .onStart(() => {
+      this.btnHilight.rect.alpha = 1
+    })
+    .onUpdate(() => {
+      this.btnHilight.circ2.y =
+        this.btnHilight.rect.y + this.btnHilight.rect.height;
+    })
+    .easing(Easing.Cubic.In)
+    .start();
 
     //part 2
     const shrinkMovement = new Tween(this.btnHilight.rect)
-      .to({ height: 1, y: active.y }, timeCoeff * 2)
-      .onUpdate(() => {
-        this.btnHilight.circ1.y = this.btnHilight.rect.y;
-      })
-      .onComplete(()=> {
-    this.isClicky = true
-this.btnHilight.alpha = this.isClicked?1:0.3
-this.btnHilight.rect.alpha = 0
-      }
-      )
-      .easing(Easing.Elastic.InOut);
+    .to({ height: 1, y: active.y }, timeCoeff * 2)
+    .onUpdate(() => {
+      this.btnHilight.circ1.y = this.btnHilight.rect.y;
+    })
+    .onComplete(()=> {
+      this.isClicky = true
+      this.btnHilight.alpha = this.isClicked?1:0.3
+      this.btnHilight.rect.alpha = 0
+    }
+    )
+    .easing(Easing.Elastic.InOut);
     expandMovement.chain(shrinkMovement);
     this.prev = { y: active.y };
   }
@@ -215,7 +215,7 @@ class NavButton extends Graphics {
     this.x = x;
     this.y = y;
     this.eventMode = 'static'
-this.cursor = "pointer"
+    this.cursor = "pointer"
     this.active = false;
     this.alpha = active ? 1 : 0.3;
     this.scene = scene;

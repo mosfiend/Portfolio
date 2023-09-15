@@ -2,8 +2,8 @@ const projectData = [
     {
 name:"Workout Planner",
 description:"Front end workout app extracting exercises from online workout libraries and other lies.",
-display: ".img/workout-planner/png",
-alt:"Fullstack Training Program"
+github:"https://github.com/mosfiend/workout",
+link: "https://https://adoring-agnesi-1cfb67.netlify.app/"
 
     },
     {
