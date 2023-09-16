@@ -25,8 +25,9 @@ e.preventDefault()
 
 }
 
-  return (<FormControl>
+  return (<form>
           <FormControl  isRequired>
+          <Input type="hidden" name="form-name" value="contact" />
             <InputGroup>
               <InputLeftElement>
                 <BsPerson />
@@ -69,6 +70,6 @@ e.preventDefault()
           >
             Send Message
           </Button>
-  </FormControl>
+  </form>
   );
 }
