@@ -75,11 +75,11 @@ export class Manager {
   }
   static async initializeLoader() {
     await Assets.init({ manifest });
-    await Assets.loadBundle("projectScene");
-    Manager.startScene(new ProjectScene());
-    Manager.annexes(new Navbar());
-    await Assets.loadBundle("orbitScene");
-    await Assets.loadBundle("interactiveScene");
+        await Assets.loadBundle("interactiveScene");
+        Manager.startScene(new WorldMap());
+        await Assets.loadBundle("orbitScene");
+        await Assets.loadBundle("projectScene");
+        Manager.annexes(new Navbar());
   }
 
   static startScene(scene) {
