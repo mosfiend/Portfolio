@@ -20,14 +20,19 @@ import { BsPerson } from "react-icons/bs";
 import { MdOutlineEmail } from "react-icons/md";
 
 export default function ContactForm() {
-    const [name,setName] = useState("")
-    const [email,setEmail] = useState("")
-    const [message,setMessage] = useState("")
+
+    const encode = (data)=> Object.keys(data)
+        .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
+        .join("&");
+
+    const [name,setName] = useState("");
+    const [email,setEmail] = useState("");
+    const [message,setMessage] = useState("");
     const handleSubmit = e => {
       fetch("/", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: encode({ "form-name": "contact", name, email, message })
+        body: encode({ "form-name": "contact", name:name, email:email, message:message })
       })
         .then(() => alert("Success!"))
         .catch(error => alert(error));
@@ -37,13 +42,11 @@ export default function ContactForm() {
 
     const handleChange = e => {
   e.target.name==="name"?setName(e.target.value):e.target.name==="email"?setEmail(e.target.value):setMessage(e.target.value)
-
-        console.log(e.target.value)
 }
     return (
 <Box>
         <form onSubmit={handleSubmit}>
-          <Input type="hidden" name="form-name" value="contact" />
+          <Input type="hidden" name="contact" value="contact" />
           <FormControl isRequired>
             <InputGroup>
               <InputLeftElement>
@@ -77,12 +80,13 @@ onChange={handleChange} value={message}
           </FormControl>
 
           <Button
-            type="submit"
-            _hover={
-              {
-                //do what you want
-              }
-            }
+                    type="submit"
+                    onClick={function(){encode({name:name,email:email})}}
+                    _hover={
+                        {
+                            //do what you want
+                        }
+                    }
             width="full"
           >
             Send Message

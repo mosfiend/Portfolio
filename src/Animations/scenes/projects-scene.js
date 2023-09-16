@@ -104,16 +104,13 @@ export class ProjectScene extends Container {
                 const july = new Tween(tempo)
                 .to({x:modDiff}, 500)
                 .onUpdate(() => {
-                    console.log(mod,this.mod)
                     this.mod = mod + tempo.x
                 })
                 .start()
                 .onComplete(()=>{
-                    console.log(this.mod)
 
 
                 })
-                console.log(trans)
                 this.projects.forEach((project, idx) => {
                     let begin = { x: 0 };
                     let end = { x: trans[idx] };
