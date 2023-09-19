@@ -128,7 +128,8 @@ export class OrbitScene extends PIXI.Container {
                         // })
                   })
                   .start()
-                  Manager.handleState(1)
+                  Manager.handleState(0)
+                  Manager.handleBgState(0,1)
       }
       async loadAssets() {
             await PIXI.Assets.loadBundle("techIcons")
@@ -147,6 +148,7 @@ export class OrbitScene extends PIXI.Container {
 
       transitionOut() {
             Manager.app.stage.off("mousemove")
+                  Manager.handleBgState(0,0)
             function fadeOut(circle, cb) {
                   return new Tween(circle)
                         .to({ width: this.circle5.width, height: this.circle5.height, x: 0, y: 0 }, 150)

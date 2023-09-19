@@ -44,10 +44,12 @@ export default function ContactForm() {
   e.target.name==="name"?setName(e.target.value):e.target.name==="email"?setEmail(e.target.value):setMessage(e.target.value)
 }
     return (
-<Box>
-        <form onSubmit={handleSubmit}>
+        <form  onSubmit={handleSubmit}>
+                <VStack>
           <Input type="hidden" name="contact" value="contact" />
+
           <FormControl isRequired>
+            <FormLabel>Name</FormLabel>
             <InputGroup>
               <InputLeftElement>
                 <BsPerson />
@@ -58,7 +60,6 @@ export default function ContactForm() {
 
           <FormControl isRequired>
             <FormLabel>Email</FormLabel>
-
             <InputGroup>
               <InputLeftElement>
                 <MdOutlineEmail />
@@ -69,7 +70,6 @@ export default function ContactForm() {
 
           <FormControl isRequired>
             <FormLabel>Message</FormLabel>
-
             <Textarea
               name="message"
               placeholder="Your Message"
@@ -81,7 +81,6 @@ onChange={handleChange} value={message}
 
           <Button
                     type="submit"
-                    onClick={function(){encode({name:name,email:email})}}
                     _hover={
                         {
                             //do what you want
@@ -91,7 +90,7 @@ onChange={handleChange} value={message}
           >
             Send Message
           </Button>
+                </VStack>
   </form>
-</Box>
   );
 }

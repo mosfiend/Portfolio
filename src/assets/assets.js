@@ -24,6 +24,7 @@ export const manifest = {
                 "workout": "/images/projects/workout.png",
                 "drum": "/images/projects/drum.png",
                 "quotes": "/images/projects/quotes.png",
+                "displacement": "/images/projects/displacement.jpeg",
             }
         }
     ]

@@ -1,4 +1,4 @@
-import { Text, Graphics, Container, Sprite } from "pixi.js";
+import { DisplacementFilter, Text, Graphics, Container, Sprite } from "pixi.js";
 import { Easing, Tween } from "tweedle.js";
 import { Manager } from "../manager";
 export class ProjectScene extends Container {
@@ -26,12 +26,20 @@ export class ProjectScene extends Container {
         this.makeProject("quotes");
         this.makeProject("workout");
         this.mod = this.sceneWidth + this.#projWidth / 2;
-
+                this.displacementSprite = Sprite.from(("displacement"))
+                this.displacementSprite.x = -this.x
+                this.displacementSprite.width= this.screenWidth
+                this.displacementSprite.height= this.screenHeight
+                this.addChild(this.displacementSprite)
+        this.filter= new DisplacementFilter(this.displacementSprite)
+        this.filter.scale.y = 0
+        this.filters= [this.filter]
         this.projects.forEach((proj, idx) => {
             this.addChild(proj);
 
             proj.on("click", () => {
                 if (this.isClicked) return;
+            this.filter.scale.x = 0
                 let trans = new Array(this.projects.length).fill(0);
                 let diff = 0
                 let dist = 0
@@ -46,12 +54,14 @@ export class ProjectScene extends Container {
                             proj.x;
                     this.activeIdx = idx
                     modDiff = diff
+                    this.isActive= false
                 }
                 else if (idx === this.activeIdx) {
                     diff = -this.#projWidth
 
                     this.activeIdx = -1
                     modDiff = diff
+                    this.isActive= true
                 }
                 else {
                     diff = this.#projWidth
@@ -66,7 +76,7 @@ export class ProjectScene extends Container {
                     let prevDiff = -this.#projWidth
                     modDiff = 0
                     this.projects.forEach((proj,i)=>{
-                    const cur = this.projects[i];
+                        const cur = this.projects[i];
                         const prev = this.projects[prevIdx]
                         if (i === prevIdx) {
                             this.projects[prevIdx].shrink()
@@ -81,6 +91,7 @@ export class ProjectScene extends Container {
                     })
 
                     this.activeIdx = idx
+                    this.isActive = false
                 }
 
                 const W = this.#projWidth * 2;
@@ -124,13 +135,14 @@ export class ProjectScene extends Container {
                     .onComplete(() => {
                         this.isClicked = false;
                     })
-            .easing(Easing.Quadratic.InOut)
+                    .easing(Easing.Quadratic.InOut)
                     ;
                 });
             });
         });
         Manager.app.stage.on("wheel", (e) => {
-            this.scrollJuice += e.deltaY;
+            if (!this.isActive) return;
+            this.scrollJuice += e.deltaY*1.2;
         });
     }
 
@@ -142,10 +154,11 @@ export class ProjectScene extends Container {
         });
 
         if (isActive) return;
+            const scrollJuice = this.scrollJuice/20;
         for (let i = 0; i < this.projects.length; i++) {
-            const scrollJuice = this.scrollJuice / 10;
             this.projects[i].x =
-                (this.projects[i].x + 2 + scrollJuice + this.mod) % this.mod;
+                ((this.projects[i].x + 2 + scrollJuice + this.mod) % this.mod);
+            this.filter.scale.x = -(( scrollJuice  ))
             if (i === this.projects.length - 1) this.scrollJuice -= scrollJuice;
         }
     }
@@ -158,18 +171,20 @@ export class ProjectScene extends Container {
 
     transitionIn() {
         Manager.app.stage.addChildAt(Manager.currentScene, 1);
-        Manager.handleState(3);
+        Manager.handleState(1);
+        Manager.handleBgState(1,1)
     }
 
     transitionOut() {
+        Manager.handleBgState(1,0)
         Manager.app.stage.off("wheel");
         Manager.app.stage.removeChild(this);
         this.destroy();
     }
     makeProject(src) {
-        const y = Math.max(30, this.screenHeight / 10);
+        const y = Math.max(30, this.screenHeight / 20);
         const width = this.#projWidth;
-        const height = this.screenHeight * 0.8;
+        const height = this.screenHeight * 0.9;
         const x = (width + this.#margin) * this.#idx++;
         const proj = new Project(x, y, width, height, src);
         this.projects.push(proj);

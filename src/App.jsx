@@ -1,14 +1,22 @@
-import{ useState } from "react"
+import{ useState } from "react" 
 import Animations from "./components/Animations";
 import Sidebar from "./components/Sidebar";
+import Background from "./components/Background";
 import {Container,Flex, Box } from "@chakra-ui/react"
-
+import { keyframes,Fade, ScaleFade, Slide, SlideFade, Collapse } from '@chakra-ui/react'
+import { motion } from 'framer-motion'
 const App = () => {
-  const [curScene, setCurScene] = useState(1);
-  return (<Box bgGradient='linear(to-b,rgba(0,255,200,0.1), rgb(200,255,0,0.2))' >
-<Sidebar curScene={curScene}/>
-      <Animations  curScene={curScene} setCurScene={setCurScene}/>
-  </Box>)
+    const [curScene, setCurScene] = useState(0);
+    const [bg1,setBg1] = useState(1)
+    const [bg2,setBg2] = useState(0)
+    const [bg3,setBg3] = useState(0)
+    return (<Box>
+
+        <Background bg1={bg1} bg2={bg2} bg3={bg3}/>
+        <Sidebar curScene={curScene}/>
+        <Animations bg1={bg1} bg2={bg2} bg3={bg3} setBg1={setBg1} setBg2={setBg2} setBg3={setBg3} curScene={curScene} setCurScene={setCurScene} />
+
+    </Box>)
 }
 
 export default App

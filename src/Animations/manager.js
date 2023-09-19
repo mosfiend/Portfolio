@@ -23,10 +23,11 @@ export class Manager {
     return Manager.parent.offsetHeight;
   }
 
-  static initialize(el, background, parent, changeScene) {
+  static initialize(el, background, parent, handleState,handleBgState) {
     Manager.parent = parent;
     Manager.el = el;
-    Manager.handleState = changeScene
+    Manager.handleState = handleState
+    Manager.handleBgState = handleBgState
     // Create our pixi app
     Manager.app = new Application({
       view: Manager.el,
@@ -75,10 +76,10 @@ export class Manager {
   }
   static async initializeLoader() {
     await Assets.init({ manifest });
-        await Assets.loadBundle("interactiveScene");
-        Manager.startScene(new WorldMap());
         await Assets.loadBundle("orbitScene");
+        Manager.startScene(new OrbitScene());
         await Assets.loadBundle("projectScene");
+        await Assets.loadBundle("interactiveScene");
         Manager.annexes(new Navbar());
   }
 

@@ -105,14 +105,15 @@ this.spinner.lineTo(cos*this.diam,sin*this.diam)
         Manager.app.stage.addChild(Manager.currentScene)
         Manager.viewport.addChildAt(Manager.currentScene, 0)
         Manager.handleState(2)
+        Manager.handleBgState(2,1)
     }
     transitionOut() {
         Manager.viewport.removeChild(this)
 this.destroy();
+        Manager.handleBgState(2,0)
     }
     resize(w, h) {
         this.screenWidth = w
         this.screenHeight = h
     }
-
 }

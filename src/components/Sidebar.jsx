@@ -17,13 +17,13 @@ const Sidebar = ({curScene}) => {
         borderRadius="6px"
       >
         <Heading textAlign="center" as="h1" fontSize="5xl" m={4}>
-          {curScene === 1 ? (
+          {curScene === 0 ? (
             <>Who am I</>
           ) : curScene === 2 ? (
             <>Get in touch</>
           ) : undefined}
         </Heading>
-        {curScene === 1 ? (
+        {curScene === 0 ? (
           <About curScene={curScene} />
         ) : curScene === 2 ? (
           <Contact />
