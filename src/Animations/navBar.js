@@ -104,31 +104,31 @@ export class Navbar extends Container {
     if (!this.isClicked && this.isClicky) {
       if (this.cyclePart < 4) {
         this.spinner.clear().beginFill();
-        this.diam = (this.diam + 1) % 1000;
+        this.diam = (this.diam + 1) % 56;
       }
       if (this.diam === 0) this.cyclePart++;
       switch (this.cyclePart) {
         case 0:
-          this.spinner.lineTo(0, -1000);
-          this.spinner.lineTo(this.diam, -1000 + this.diam);
+          this.spinner.lineTo(0, -55);
+          this.spinner.lineTo(this.diam, -55 + this.diam);
           break;
         case 1:
-          this.spinner.lineTo(0, -1000);
-          this.spinner.lineTo(1000, 0);
-          this.spinner.lineTo(1000 - this.diam, this.diam);
+          this.spinner.lineTo(0, -55);
+          this.spinner.lineTo(55, 0);
+          this.spinner.lineTo(55 - this.diam, this.diam);
           break;
         case 2:
-          this.spinner.lineTo(0, -1000);
-          this.spinner.lineTo(1000, 0);
-          this.spinner.lineTo(0, 1000);
-          this.spinner.lineTo(-this.diam, 1000 - this.diam);
+          this.spinner.lineTo(0, -55);
+          this.spinner.lineTo(55, 0);
+          this.spinner.lineTo(0, 55);
+          this.spinner.lineTo(-this.diam, 55 - this.diam);
           break;
         case 3:
-          this.spinner.lineTo(0, -1000);
-          this.spinner.lineTo(1000, 0);
-          this.spinner.lineTo(0, 1000);
-          this.spinner.lineTo(-1000, 0);
-          this.spinner.lineTo(-1000 + this.diam, -this.diam);
+          this.spinner.lineTo(0, -55);
+          this.spinner.lineTo(55, 0);
+          this.spinner.lineTo(0, 55);
+          this.spinner.lineTo(-55, 0);
+          this.spinner.lineTo(-55 + this.diam, -this.diam);
           break;
         default:
           this.sceneSwitcher = (this.sceneSwitcher + 1) % this.scenes.length;

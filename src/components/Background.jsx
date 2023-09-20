@@ -5,7 +5,6 @@ import { motion } from 'framer-motion'
 
 const Background = ({bg1,bg2,bg3}) => {
     function anim(bg){
-console.log(bg,(bg+1)%2)
         const frames = keyframes`
 0% {
 opacity:${(bg+1)%2};
@@ -22,7 +21,7 @@ opacity:${bg};
             as={motion.div}
             position="absolute"
             w="100vw" h="100vh"
-            bgGradient='linear(to-b,rgba(0,255,200,0.1), rgb(200,255,0,0.3))'
+            bgGradient="linear(to-b,rgba(0,150,255,0.2),rgba(0,150,255,0.4),rgba(0,100,255,0.7), rgba(200,255,20,0.7))"
             zIndex="-1"
             animation={anim(bg1)}
         >
@@ -38,7 +37,7 @@ opacity:${bg};
             as={motion.div}
             position="absolute"
             w="100vw" h="100vh"
-            bgGradient="linear(to-b,rgba(0,255,255,0.6),rgba(200,255,0,0.3))"
+            bgGradient="linear(to-b,rgba(0,150,255,0.2),rgba(0,150,255,0.4),rgba(0,100,255,0.7), rgba(255,0,30,0.6))"
             zIndex="-1"
             animation={anim(bg2)}
         >
@@ -47,7 +46,7 @@ opacity:${bg};
             as={motion.div}
             position="absolute"
             w="100vw" h="100vh"
-            bgGradient="linear(to-b,rgba(0,255,200,0.8), rgb(200,255,0,0.2))"
+            bgGradient="linear(to-b,rgba(0,150,255,0.2),rgba(0,150,255,0.4),rgba(0,100,255,0.7), rgba(30,30,30,0.8))"
             zIndex="-1"
             animation={anim(bg3)}
         >

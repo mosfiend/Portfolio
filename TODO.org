@@ -10,16 +10,22 @@
     * [X] refactor projects scene: 
         * have an array keeping track of how much each entry in projects should slide
 
-** TODO Form handling
+** DONE Form handling
+   CLOSED: [2023-09-20 Wed 11:33]
   * [X] frontend layout for the form
   * [X] better styling, make bg easier on the eye to read
-  * [ ] form handling proper
-  * [ ] basic backend to receive the messages
+  * [x] form handling proper
+  * [x] basic backend to receive the messages
 ** TODO Styling general
   * [X] make default text color white
-  * [ ] host own font
+  * [x] host own font
 * Portfolio
   :LOGBOOK:
+  CLOCK: [2023-09-20 Wed 22:14]--[2023-09-20 Wed 23:51] => 1:37
+  CLOCK: [2023-09-20 Wed 18:53]--[2023-09-20 Wed 20:01] => 1:08
+  CLOCK: [2023-09-20 Wed 17:25]--[2023-09-20 Wed 17:55] => 0:30
+  CLOCK: [2023-09-20 Wed 17:00]--[2023-09-20 Wed 17:14] => 0:14
+  CLOCK: [2023-09-20 Wed 13:03]--[2023-09-20 Wed 14:00] => 0:57
   CLOCK: [2023-09-11 Mon 16:58]--[2023-09-11 Mon 17:39] => 0:41
   CLOCK: [2023-09-11 Mon 00:53]--[2023-09-11 Mon 02:41] => 1:48
   CLOCK: [2023-09-10 Sun 19:36]--[2023-09-10 Sun 21:44] => 2:08

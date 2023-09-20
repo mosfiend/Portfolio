@@ -1,4 +1,4 @@
-import { DisplacementFilter, Text, Graphics, Container, Sprite } from "pixi.js";
+import { Assets,DisplacementFilter, Text, Graphics, Container, Sprite } from "pixi.js";
 import { Easing, Tween } from "tweedle.js";
 import { Manager } from "../manager";
 export class ProjectScene extends Container {
@@ -8,6 +8,7 @@ export class ProjectScene extends Container {
     // a scene covering  only half the screen what a joke
     constructor() {
         super();
+    console.log(Assets)
         this.screenWidth = Manager.width;
         this.screenHeight = Manager.height;
         this.isActive = true;
@@ -37,7 +38,7 @@ export class ProjectScene extends Container {
         this.projects.forEach((proj, idx) => {
             this.addChild(proj);
 
-            proj.on("click", () => {
+            proj.on("pointerdown", () => {
                 if (this.isClicked) return;
             this.filter.scale.x = 0
                 let trans = new Array(this.projects.length).fill(0);
@@ -110,16 +111,20 @@ export class ProjectScene extends Container {
                         trans[i] += dist +diff
                     }
                 }
+
                 const mod = this.mod
-                const tempo = {x:0}
+                const tempo = {x:0,scale:-dist/this.screenWidth*250}
+                this.filter.scale.x = tempo.scale
+
                 const july = new Tween(tempo)
-                .to({x:modDiff}, 500)
+                    .to({x:modDiff,scale:0}, 500)
                 .onUpdate(() => {
                     this.mod = mod + tempo.x
+this.filter.scale.x=tempo.scale
                 })
                 .start()
                 .onComplete(()=>{
-
+            this.filter.scale.x = 0
 
                 })
                 this.projects.forEach((project, idx) => {
@@ -135,7 +140,7 @@ export class ProjectScene extends Container {
                     .onComplete(() => {
                         this.isClicked = false;
                     })
-                    .easing(Easing.Quadratic.InOut)
+                    
                     ;
                 });
             });
@@ -223,7 +228,6 @@ class Project extends Container {
                 this.bounds.width = cur.width;
             })
             .start()
-            .easing(Easing.Quadratic.InOut)
     }
 
     shrink() {
@@ -240,6 +244,5 @@ class Project extends Container {
                 this.bounds.width = cur.width;
             })
             .start()
-            .easing(Easing.Quadratic.InOut)
     }
 }

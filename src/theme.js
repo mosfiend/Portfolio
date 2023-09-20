@@ -54,7 +54,17 @@ const theme = extendTheme({
         background: "#0cd",
       },
     },
-  },
+        IconButton: {
+            variants: {
+                solid: {
+                    _hover: {
+                        background: "#ff0000",
+                        color:"ff0000"
+                    },
+                },
+            },
+        },
+    },
   fonts: {
     body: "Quicksand, sans-serif",
     heading: "Quicksand, sans-serif",
