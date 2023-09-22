@@ -7,14 +7,15 @@ import { keyframes,Fade, ScaleFade, Slide, SlideFade, Collapse } from '@chakra-u
 import { motion } from 'framer-motion'
 const App = () => {
     const [curScene, setCurScene] = useState(0);
+    const [project,setProject] =useState(-1)
     const [bg1,setBg1] = useState(1)
     const [bg2,setBg2] = useState(0)
     const [bg3,setBg3] = useState(0)
     return (<Box>
 
         <Background bg1={bg1} bg2={bg2} bg3={bg3}/>
-        <Sidebar curScene={curScene}/>
-        <Animations bg1={bg1} bg2={bg2} bg3={bg3} setBg1={setBg1} setBg2={setBg2} setBg3={setBg3} curScene={curScene} setCurScene={setCurScene} />
+        <Animations bg1={bg1} bg2={bg2} bg3={bg3} setBg1={setBg1} setBg2={setBg2} setBg3={setBg3} curScene={curScene} setCurScene={setCurScene} setProject={setProject}/>
+        <Sidebar curScene={curScene} project={project}/>
 
     </Box>)
 }

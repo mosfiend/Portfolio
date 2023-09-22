@@ -1,0 +1,36 @@
+{
+    "projects": [
+        {
+            "name": "Workout Planner",
+            "description": "Front-end workout app extracting exercises from online workout libraries and other resources.",
+            "stack": ["react","pixi"],
+            "id":"workout",
+            "github": "https://github.com/mosfiend/workout",
+            "link": "https://adoring-agnesi-1cfb67.netlify.app/"
+        },
+        {
+            "name": "Pancreas",
+            "description": "A a game made in HTML5 canvas that simplifies how the Pancreas regulates blood sugar.",
+            "stack": ["html5","css3"],
+            "id":"pancreas",
+            "github": "https://github.com/mosfiend/workout",
+            "link": "https://adoring-agnesi-1cfb67.netlify.app/"
+        },
+        {
+            "name":"Drum Machine",
+            "description": "A drum made using react class components",
+            "stack": ["react","css3"],
+            "id":"drum",
+            "github": "https://github.com/mosfiend/workout",
+            "link": "https://adoring-agnesi-1cfb67.netlify.app/"
+        },
+        {
+            "name": "Random Quotes Generator",
+            "description": "A quotes generator made using react class components",
+            "stack": ["react","css3"],
+            "id":"quotes",
+            "github": "https://github.com/mosfiend/workout",
+            "link": "https://adoring-agnesi-1cfb67.netlify.app/"
+        }
+    ]
+}

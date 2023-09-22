@@ -1,4 +1,4 @@
-import { extendTheme } from "@chakra-ui/react";
+import { Box, useStyleConfig, extendTheme } from "@chakra-ui/react";
 const inputStyle = {
   variants: {
     outline: {
@@ -34,6 +34,14 @@ const theme = extendTheme({
       },
     },
     Input: inputStyle,
+    Glass: {
+        baseStyle: {
+            bg:"#29b0aa60",
+            backdropFilter:"auto",
+            backdropBlur:"9px",
+            borderRadius:"6px"
+      },
+    },
     Textarea: {
       variants: {
         outline: {

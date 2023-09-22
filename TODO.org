@@ -1,5 +1,6 @@
 * Problems
   * [X] Images not working on production
+  * [ ] Lack of responsiveness on mobile
 * Tasks
 ** DONE Implement glassmorphism
 ** TODO PIXI animations
@@ -19,10 +20,16 @@
 ** TODO Styling general
   * [X] make default text color white
   * [x] host own font
+  * [ ] call to action in the about section
+  * [ ] subtle animation on load and on state change
+  * collapsing bars on the side, multiple bars...
 * Portfolio
   :LOGBOOK:
-  CLOCK: [2023-09-20 Wed 22:14]--[2023-09-20 Wed 23:51] => 1:37
+  CLOCK: [2023-09-22 Fri 15:10]--[2023-09-22 Fri 16:33] => 1:23
+  CLOCK: [2023-09-21 Thu 23:33]--[2023-09-22 Fri 00:38] => 1:05
+  CLOCK: [2023-09-21 Thu 16:21]--[2023-09-21 Thu 17:09] => 0:48
   CLOCK: [2023-09-20 Wed 18:53]--[2023-09-20 Wed 20:01] => 1:08
+  CLOCK: [2023-09-20 Wed 22:14]--[2023-09-20 Wed 23:51] => 1:37
   CLOCK: [2023-09-20 Wed 17:25]--[2023-09-20 Wed 17:55] => 0:30
   CLOCK: [2023-09-20 Wed 17:00]--[2023-09-20 Wed 17:14] => 0:14
   CLOCK: [2023-09-20 Wed 13:03]--[2023-09-20 Wed 14:00] => 0:57

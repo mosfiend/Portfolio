@@ -5,10 +5,16 @@ import Socials from "./Socials.jsx";
 import About from "./About.jsx";
 import Contact from "./Contact.jsx";
 import Projects from "./Projects.jsx";
-const Animations = ({bg1,bg2,bg3,setBg1, setBg2, setBg3, setCurScene,setBgAlpha}) => {
+const Animations = ({bg1,bg2,bg3,setBg1, setBg2, setBg3, setCurScene,setProject}) => {
     const setBgs = [setBg1,setBg2,setBg3]
     const bgs = [bg1,bg2,bg3]
-    let runOnce = false;
+    const [icons,setIcons] = useState({
+react:false,
+pixi:false,
+html5:false,
+css3: false
+    })
+    let runOnce = false; //for whatever reason the statement inside useEFfect runs twice
     const handleState = (cur) => {
         setCurScene(cur);
     };
@@ -16,6 +22,11 @@ const Animations = ({bg1,bg2,bg3,setBg1, setBg2, setBg3, setCurScene,setBgAlpha}
     const handleBgState = (cur,alpha) => {
         setBgs[cur](alpha)
     };
+
+    const handleProject = (proj) => {
+        setProject(proj);
+    };
+
     useEffect(() => {
         if (!runOnce) {
             Manager.initialize(
@@ -23,7 +34,8 @@ const Animations = ({bg1,bg2,bg3,setBg1, setBg2, setBg3, setCurScene,setBgAlpha}
                 0x2e3037,
                 document.getElementById("container"),
                 handleState,
-                handleBgState
+                handleBgState,
+                handleProject
             );
             Manager.vp();
             Manager.initializeLoader();
@@ -31,7 +43,7 @@ const Animations = ({bg1,bg2,bg3,setBg1, setBg2, setBg3, setCurScene,setBgAlpha}
         }
     }, []);
     return (
-        <Box id="container" w="100vw" h="100vh">
+        <Box id="container" w="100vw" h="100vh" position="absolute">
             <canvas id="pixi-canvas" />
         </Box>
     );

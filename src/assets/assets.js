@@ -1,5 +1,12 @@
+import projectData from "../assets/data/ProjectData.json"
 export const manifest = {
     bundles: [
+        {
+            name: "filters",
+            assets: {
+            "displacement":"/images/projects/displacement.jpeg"
+            }
+            },
         {
             name: "orbitScene",
             assets: {
@@ -19,13 +26,11 @@ export const manifest = {
         },
          {
                 name: "projectScene",
-            assets: {
-                "pancreas": "/images/projects/pancreas.png",
-                "workout": "/images/projects/workout.png",
-                "drum": "/images/projects/drum.png",
-                "quotes": "/images/projects/quotes.png",
-                "displacement": "/images/projects/displacement.jpeg",
-            }
         }
     ]
 }
+const assets= {}
+projectData.projects.map((project)=>{
+assets[project.id] = `/images/projects/${project.id}.png`
+})
+manifest.bundles[3].assets = assets

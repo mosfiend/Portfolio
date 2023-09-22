@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Link, Box, IconButton } from "@chakra-ui/react";
+import { useColorModeValue, Grid, Link, Box, IconButton } from "@chakra-ui/react";
 import { FaTwitter } from "react-icons/fa";
 import { FaLinkedin } from "react-icons/fa";
 import { FaGithub } from "react-icons/fa";
@@ -10,8 +10,12 @@ const Socials = () => {
     <Grid justifyContent="center" alignItems="spaceAround">
 <Box>
       <IconButton 
-bg="none"
-      icon={<FaGithub color="#ccccdd" size={"1.7em"} />}
+                    bg="none"
+                    _hover={{
+                        bg: 'none',
+                        color: useColorModeValue('white', 'black'),
+                    }}
+                    icon={<FaGithub color="#ccccdd" size={"1.7em"} />}
        />
 </Box>
 <Box>

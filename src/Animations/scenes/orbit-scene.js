@@ -147,7 +147,6 @@ export class OrbitScene extends Container {
     }
 
     transitionOut() {
-        console.log(Easing)
         Manager.app.stage.off("mousemove")
         Manager.handleBgState(0,0)
                     this.icons.forEach((icon)=>{icon.alpha=0})
@@ -166,7 +165,6 @@ export class OrbitScene extends Container {
     resize(w, h) {
         const isSame = this.screenWidth === w
         this.screenWidth = w
-        console.log("youcalled?")
         this.screenHeight = h
         this.x = this.screenWidth / 2
         this.circle1.clear()

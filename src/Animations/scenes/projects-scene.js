@@ -1,14 +1,13 @@
-import { Assets,DisplacementFilter, Text, Graphics, Container, Sprite } from "pixi.js";
+import { DisplacementFilter, Graphics, Container, Sprite } from "pixi.js";
 import { Easing, Tween } from "tweedle.js";
 import { Manager } from "../manager";
+import projectData from "../../assets/data/ProjectData.json"
 export class ProjectScene extends Container {
     #idx = 0;
     #projWidth = 240;
     #margin = 30;
-    // a scene covering  only half the screen what a joke
     constructor() {
         super();
-    console.log(Assets)
         this.screenWidth = Manager.width;
         this.screenHeight = Manager.height;
         this.isActive = true;
@@ -16,17 +15,15 @@ export class ProjectScene extends Container {
         this.activeIdx = -1;
         this.scrollJuice = 0;
         this.head = 0;
-        this.sceneWidth = this.screenWidth * 1.5;
-        this.#projWidth = this.sceneWidth / 6;
-        this.x = this.screenWidth / 2 - this.sceneWidth / 2;
+        this.sceneWidth = this.screenWidth*1.5
+        const projects = projectData.projects
+        this.#projWidth = (this.sceneWidth) / projects.length-this.#margin;
+        this.x = -this.#projWidth
         this.projects = [];
-        this.makeProject("pancreas");
-        this.makeProject("drum");
-        this.makeProject("quotes");
-        this.makeProject("workout");
-        this.makeProject("quotes");
-        this.makeProject("workout");
-        this.mod = this.sceneWidth + this.#projWidth / 2;
+projects.map((project)=>{
+        this.makeProject(project.id);
+})
+        this.mod = this.sceneWidth
                 this.displacementSprite = Sprite.from(("displacement"))
                 this.displacementSprite.x = -this.x
                 this.displacementSprite.width= this.screenWidth
@@ -56,13 +53,14 @@ export class ProjectScene extends Container {
                     this.activeIdx = idx
                     modDiff = diff
                     this.isActive= false
+                    Manager.handleProject(idx)
                 }
                 else if (idx === this.activeIdx) {
                     diff = -this.#projWidth
-
                     this.activeIdx = -1
                     modDiff = diff
                     this.isActive= true
+                    Manager.handleProject(-1)
                 }
                 else {
                     diff = this.#projWidth
@@ -93,6 +91,7 @@ export class ProjectScene extends Container {
 
                     this.activeIdx = idx
                     this.isActive = false
+                    Manager.handleProject(idx)
                 }
 
                 const W = this.#projWidth * 2;
