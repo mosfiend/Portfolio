@@ -13,8 +13,8 @@
             "description": "A a game made in HTML5 canvas that simplifies how the Pancreas regulates blood sugar.",
             "stack": ["html5","css3"],
             "id":"pancreas",
-            "github": "https://github.com/mosfiend/workout",
-            "link": "https://adoring-agnesi-1cfb67.netlify.app/"
+            "github": "https://github.com/mosfiend/Pancreas-The-Game",
+            "link": "https://mosted.itch.io/pancreas"
         },
         {
             "name":"Drum Machine",

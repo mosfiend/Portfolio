@@ -1,6 +1,5 @@
 import { Box, Heading, Text } from "@chakra-ui/react";
-
-const About = ({curScene}) => {
+const About = ({curScene, onToggle}) => {
   return (
         <>
             <Heading as="h1" fontSize="6xl" textAlign="center" m={4}>

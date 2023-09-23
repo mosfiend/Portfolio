@@ -8,12 +8,6 @@ import Projects from "./Projects.jsx";
 const Animations = ({bg1,bg2,bg3,setBg1, setBg2, setBg3, setCurScene,setProject}) => {
     const setBgs = [setBg1,setBg2,setBg3]
     const bgs = [bg1,bg2,bg3]
-    const [icons,setIcons] = useState({
-react:false,
-pixi:false,
-html5:false,
-css3: false
-    })
     let runOnce = false; //for whatever reason the statement inside useEFfect runs twice
     const handleState = (cur) => {
         setCurScene(cur);

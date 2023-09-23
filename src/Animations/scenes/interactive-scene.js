@@ -10,9 +10,8 @@ export class WorldMap extends Container {
         Manager.viewport
             .drag({
                 // pressDrag: true,
-                wheel: false
-            });
-
+                wheel: false,
+            })
         this.screenWidth = Manager.width;
         this.screenHeight = Manager.height;
         this.batMovement = Assets.get("bat").animations
@@ -32,18 +31,13 @@ export class WorldMap extends Container {
             };
         }
 
-    this.load = new Graphics().beginFill(0xff0000).drawCircle(-100,100,50);
-    this.spinner = new Graphics().beginFill(0xffFF00);
-    this.ang = 0
-    this.diam = 70
-    this.addChild(this.spinner,this.load)
     }
 
     update(deltaTime) {
-const cos = Math.cos(this.ang);
-const sin = Math.sin(this.ang);
-this.ang += 0.1
-this.spinner.lineTo(cos*this.diam,sin*this.diam)
+        if (Manager.viewport.x<this.screenWidth-52*32) {Manager.viewport.x = this.screenWidth-52*32}
+        if (Manager.viewport.y<this.screenHeight-32*32) {Manager.viewport.y = this.screenHeight-32*32}
+        if (Manager.viewport.x>0) {Manager.viewport.x = 0}
+        if (Manager.viewport.y>0) {Manager.viewport.y =0 }
         for (let layer = 0; layer < this.layerIds.length; layer++) {
             if (this.layerIds[layer].length > 0) {
                 const curLayer = this.layerIds[layer]
@@ -107,13 +101,18 @@ this.spinner.lineTo(cos*this.diam,sin*this.diam)
         Manager.handleState(2)
         Manager.handleBgState(2,1)
     }
+
     transitionOut() {
         Manager.viewport.removeChild(this)
-this.destroy();
+        this.destroy();
         Manager.handleBgState(2,0)
     }
+
     resize(w, h) {
         this.screenWidth = w
         this.screenHeight = h
+        Manager.viewport.fit(true,this.screenWidth, this.screenHeight)
+        Manager.viewport.x = 0
+        Manager.viewport.y = 0
     }
 }

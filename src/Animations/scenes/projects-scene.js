@@ -8,8 +8,9 @@ export class ProjectScene extends Container {
     #margin = 30;
     constructor() {
         super();
+        Manager.handleProject(-1)
         this.screenWidth = Manager.width;
-        this.screenHeight = Manager.height;
+        this.screenHeight = Manager.height
         this.isActive = true;
         this.isClicked = false;
         this.activeIdx = -1;
@@ -43,12 +44,12 @@ projects.map((project)=>{
                 let dist = 0
                 let modDiff = diff
                 if (this.activeIdx === -1) {
-                    diff = this.#projWidth
+                    diff = proj.maxWidth -proj.minWidth
                     dist =
                         this.screenWidth -
                             this.x -
                             this.#margin -
-                            this.#projWidth*2-
+                            proj.maxWidth-
                             proj.x;
                     this.activeIdx = idx
                     modDiff = diff
@@ -56,24 +57,26 @@ projects.map((project)=>{
                     Manager.handleProject(idx)
                 }
                 else if (idx === this.activeIdx) {
-                    diff = -this.#projWidth
+                    diff = proj.minWidth -proj.maxWidth
                     this.activeIdx = -1
                     modDiff = diff
                     this.isActive= true
                     Manager.handleProject(-1)
                 }
                 else {
-                    diff = this.#projWidth
+                    diff = proj.maxWidth -proj.minWidth
                     dist =
                         this.screenWidth -
                             this.x -
                             this.#margin -
-                            this.#projWidth*2-
+                             proj.maxWidth -
                             proj.x;
                     const prevIdx = this.activeIdx
                     let prevDist = 0
-                    let prevDiff = -this.#projWidth
-                    modDiff = 0
+                    // let prevDiff = -this.#projWidth
+                    // diff = proj.minWidth -proj.maxWidth
+                    let prevDiff = this.projects[prevIdx].minWidth -this.projects[prevIdx].maxWidth
+                    modDiff =diff +prevDiff
                     this.projects.forEach((proj,i)=>{
                         const cur = this.projects[i];
                         const prev = this.projects[prevIdx]
@@ -138,9 +141,7 @@ this.filter.scale.x=tempo.scale
                     .start()
                     .onComplete(() => {
                         this.isClicked = false;
-                    })
-                    
-                    ;
+                    }) ;
                 });
             });
         });
@@ -198,13 +199,14 @@ this.filter.scale.x=tempo.scale
 class Project extends Container {
     constructor(x, y, width, height, src) {
         super();
-        this.v = 2;
         this.isActive = false;
         this.eventMode = "static";
         this.sprite = Sprite.from(src);
         this.sprite.eventMode = "static";
         this.sprite.cursor = "pointer";
         this.marginY = Math.min(40, height / 10);
+        this.minWidth = width;
+        this.maxWidth = Math.min(this.sprite.width,this.minWidth*2);
         this.bounds = new Graphics().beginFill().drawRect(0, 0, width, height);
         this.x = x;
         this.y = y;
@@ -213,13 +215,13 @@ class Project extends Container {
     }
     // one loop
 
-    enlarge(x, width) {
+    enlarge() {
         this.isActive = true;
         const cur = {
             width: this.bounds.width,
         };
         const target = {
-            width: width,
+            width: this.maxWidth,
         };
         return new Tween(cur)
             .to(target, 500)
@@ -235,7 +237,7 @@ class Project extends Container {
             width: this.bounds.width,
         };
         const target = {
-            width: this.bounds.width / 2,
+            width: this.minWidth
         };
         return new Tween(cur)
             .to(target, 500)

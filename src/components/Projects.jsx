@@ -1,21 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {Image, Flex,Heading, Link, Text, IconButton, Box, Grid, GridItem } from "@chakra-ui/react";
 import { FaGithub, FaCodepen } from "react-icons/fa";
 import {HiExternalLink} from "react-icons/hi";
 import projectData from "../assets/data/ProjectData.json"
-import { AnimatePresence,motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
+import Glass from "./Glass.jsx"
 const Projects = ({project}) => {
-    const [icons, setIcons] = useState({
-react:false,
-pixi:false,
-html5:false,
-css3: false
-    })
-    const allIcons= ["react","pixi","html5","css3"]
     const projects = projectData.projects
-    //             {
-    //                 console.log(skill)
-    //   {/* </AnimatePresence> */}
     return (
         <>
             <Heading as="h1" fontSize="6xl" textAlign="center" m={4}>
@@ -25,7 +16,7 @@ css3: false
 {
 project === -1?
                 <Text fontSize="xl" m={4}>
-                        A list of projects I have jstarted in the past that either I haven't continued
+                        A list of projects I have started in the past that were either dropped, abandoned, or discontinued
                 </Text>
                     :
         <>
@@ -37,7 +28,7 @@ project === -1?
                     {projects[project].description}
                 </Text>
             </Box>
-            <Flex justifyContent="flex-start">
+            <Flex justifyContent="space-evenly">
      <AnimatePresence>
                 {
                     projects[project].stack.map((skill,idx)=> {
@@ -46,7 +37,7 @@ project === -1?
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -20 }}
-                        key={idx}
+                        key={Math.random()}
                     >
                         <Image
                             alt={`${skill}`}
@@ -58,6 +49,12 @@ project === -1?
                 })
             }
      </AnimatePresence>
+                            <Box>
+                            </Box>                            
+                            <Box>
+                            </Box>                            
+                            <Box>
+                            </Box>
             </Flex>
             <Flex justifyContent="flex-end">
                 <Box>
@@ -69,22 +66,28 @@ project === -1?
                         _hover={{bg:"none",stroke:"red"}}
                     >
                         <IconButton
+                            _hover={{bg:"none",stroke:"red"}}
                             bg="none"
                             icon={projects[project].github?<FaGithub color="#ccccdd" size={"1.7em"} />:
-                                <FaCodepen color="#ccccdd" size={"1.7em"}
-                                    _hover={{bg:"none",stroke:"red"}}
-
-                                />
+                                <FaCodepen color="#ccccdd" size={"1.7em"} />
                             }
-                            _hover={{bg:"none",stroke:"red"}}
                         />
                     </Link>
                 </Box>
                 <Box>
+                    <Link
+                        href={projects[project].link}
+                        target="_blank"
+                        rel="noreferrer noopener"
+
+                        _hover={{bg:"none",stroke:"red"}}
+                    >
                     <IconButton
+                        _hover={{bg:"none",stroke:"red"}}
                         bg="none"
                         icon={<HiExternalLink color="#ccccdd" size={"1.7em"} />}
                     />
+                </Link>
                 </Box>
             </Flex>
         </>

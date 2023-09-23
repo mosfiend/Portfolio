@@ -21,7 +21,7 @@ opacity:${bg};
             as={motion.div}
             position="absolute"
             w="100vw" h="100vh"
-            bgGradient="linear(to-b,rgba(0,150,255,0.2),rgba(0,150,255,0.4),rgba(0,100,255,0.7), rgba(200,255,20,0.7))"
+            bgGradient="linear(to-b,rgba(0,150,255,0.2),rgba(0,150,255,0.4),rgba(0,100,255,0.7), rgba(200,255,30,0.7))"
             zIndex="-1"
             animation={anim(bg1)}
         >

@@ -4,10 +4,8 @@ import About from "./About.jsx";
 import Contact from "./Contact.jsx";
 import Projects from "./Projects.jsx";
 import Glass from "./Glass.jsx";
-import { keyframes} from '@chakra-ui/react'
-import { motion } from 'framer-motion'
 const Sidebar = ({curScene, project}) => {
-    let bg = curScene===0?"rgba(200,255,0,0.4)":curScene===1?"rgba(255,0,30,0.4)":"rgba(0,0,0,1)"
+    let bg = curScene===0?"rgba(200,255,70,0.5)":curScene===1?"rgba(255,0,30,0.4)":"rgba(0,0,0,1)"
     return (
         <Glass
             position="absolute"
@@ -17,7 +15,8 @@ const Sidebar = ({curScene, project}) => {
             boxShadow={`3px 4px 12px 0px ${bg}`}
         >
             {curScene === 0 ? (
-                <About curScene={curScene} />
+                <About 
+                        />
             ) : curScene === 2 ? (
                     <Contact />
                 ) : (

@@ -48,7 +48,7 @@ export class Manager {
   }
 
   static resize() {
-    if (Manager.curentScene) {
+    if (Manager.currentScene) {
       Manager.currentScene.resize(Manager.width, Manager.height);
     }
     Manager.navbar.resize(Manager.width, Manager.height);
@@ -80,8 +80,8 @@ export class Manager {
         await Assets.loadBundle("orbitScene");
         Manager.startScene(new OrbitScene());
         await Assets.loadBundle("filters");
-        await Assets.loadBundle("projectScene");
         await Assets.loadBundle("interactiveScene");
+        await Assets.loadBundle("projectScene");
         Manager.annexes(new Navbar());
   }
 

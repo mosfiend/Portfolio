@@ -11,8 +11,8 @@ export const manifest = {
             name: "orbitScene",
             assets: {
                 "pixiIcon": "/images/pixi.png",
-                "htmlIcon": "/images/html5.webp",
-                "cssIcon":"/images/css3.webp",
+                "htmlIcon": "/images/html5.png",
+                "cssIcon":"/images/css3.png",
                 "reactIcon": "/images/react.png",
             }
         },
