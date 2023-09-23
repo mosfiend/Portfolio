@@ -6,7 +6,7 @@ export default function Contact() {
   return (
             <Box>
             <Heading as="h1" fontSize="6xl" textAlign="center" m={4}>
-                Previous work
+                Get in Touch
             </Heading>
       <Flex justifyContent="space-around" borderRadius="lg" p={8} shadow="base">
          <Socials />
