@@ -144,8 +144,21 @@ export class Navbar extends Container {
   resize(w, h) {
     this.screenWidth = w;
     this.screenHeight = h;
+        if (this.screenWidth<= 768) {
+
+
+      this.navWidth / 2,
+      0,
+      this.navWidth * 0.15,
+            this.scene1.x = this.screenWidth/2 - this.navWidth*3/2
+this.scene1.y = this.screenHeight-100
+            console.log( this.scene1.x , this.scene1.y)
+
+        }
+        else {
     this.x = this.screenWidth - 100;
     this.y = this.screenHeight * 0.2;
+        }
   }
 
   changeScene(active, clicked) {

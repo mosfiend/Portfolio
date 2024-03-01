@@ -23,25 +23,33 @@ export class Manager {
     return Manager.parent.offsetHeight;
   }
 
-  static initialize(el, background, parent, handleState, handleBgState, handleProject) {
+  static initialize(
+    el,
+    background,
+    parent,
+    handleState,
+    handleBgState,
+    handleProject,
+  ) {
     Manager.parent = parent;
     Manager.el = el;
-    Manager.handleState = handleState
-    Manager.handleBgState = handleBgState
-    Manager.handleProject = handleProject
+    Manager.handleState = handleState;
+    Manager.handleBgState = handleBgState;
+    Manager.handleProject = handleProject;
     // Create our pixi app
     Manager.app = new Application({
       view: Manager.el,
       resizeTo: parent, // This line here handles the actual resize!
       resolution: window.devicePixelRatio || 1,
       autoDensity: true,
+      antialias: true,
       backgroundColor: background,
       backgroundAlpha: 0,
       eventMode: "passive",
     });
     globalThis.__PIXI_APP__ = Manager.app;
 
-    Manager.app.stage.eventMode = 'static'
+    Manager.app.stage.eventMode = "static";
     Manager.app.stage.sortableChildren = true;
     Manager.app.ticker.add(Manager.update);
     window.addEventListener("resize", Manager.resize);
@@ -77,12 +85,12 @@ export class Manager {
   }
   static async initializeLoader() {
     await Assets.init({ manifest });
-        await Assets.loadBundle("orbitScene");
-        Manager.startScene(new OrbitScene());
-        await Assets.loadBundle("filters");
-        await Assets.loadBundle("interactiveScene");
-        await Assets.loadBundle("projectScene");
-        Manager.annexes(new Navbar());
+    await Assets.loadBundle("orbitScene");
+    Manager.startScene(new OrbitScene());
+    await Assets.loadBundle("filters");
+    await Assets.loadBundle("interactiveScene");
+    await Assets.loadBundle("projectScene");
+    Manager.annexes(new Navbar());
   }
 
   static startScene(scene) {
